@@ -20,3 +20,8 @@
 - Stage 5-3 Stepper count-up & Textarea auto-grow (2026-11-06):
   - `<QuantityStepper>`: 수량 증감 방향에 따라 숫자가 아래→위(`+1`, `starting:translate-y-2.5 starting:scale-90`) 또는 위→아래(`-1`, `starting:-translate-y-2.5`)로 200ms 동안 탄력 있게 슬라이드되는 카운트업 인터랙션 적용.
   - `<Textarea>`: 기본 1줄(`rows={1}`, 44px)에서 시작해 줄바꿈마다 높이가 자동으로 늘어나며, `maxHeight`(기본 140px)에 도달하면 높이가 고정되고 내부 세로 스크롤(`overflow-y: auto`)로 전환. 우하단 리사이즈 그립 제거(`resize-none`).
+- Stage 5-4 Auth Inputs & Textarea refinement (2026-11-06):
+  - `<PasswordInput>`: 우측 눈 아이콘 보기(`text`) ↔ 숨기기(`password`) 토글 버튼 내장.
+  - `<BirthDateInput>`: 모바일 숫자 키패드(`inputMode="numeric"`)로 8자리 숫자를 치면 `YYYY.MM.DD` 자동 포맷, `name` 지정 시 숫자 8자리(`19950815`) hidden 전송.
+  - `<OtpInput>`: 6자리(기본 `length={6}`) 분할 숫자 셀, 타이핑 시 다음 칸 자동 포커스·Backspace 이전 칸 이동·붙여넣기 및 SMS 자동완성(`autoComplete="one-time-code"`) 지원.
+  - `<Textarea>`: 글자수 제한 카운터(`현재 / 최대`)를 박스 **내부 좌측 하단** 전용 푸터 줄에 배치(스크롤 시 본문과 겹침 없음)하고, 스크롤바를 숨김(`subtle-scrollbar`: `scrollbar-width: none` / `::-webkit-scrollbar { display: none }`).

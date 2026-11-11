@@ -147,6 +147,14 @@
   padding-bottom: env(safe-area-inset-bottom, 0px);
 }
 
+@utility subtle-scrollbar {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
 @keyframes mds-step-in-up {
   from {
     transform: translateY(65%) scale(0.88);

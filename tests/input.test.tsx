@@ -1,7 +1,19 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import { renderToStaticMarkup } from "react-dom/server";
-import { Field, Input, SearchBar, Textarea, computeTextareaLayout, controlClass } from "../src/mobile/Input";
+import {
+  BirthDateInput,
+  Field,
+  Input,
+  OtpInput,
+  PasswordInput,
+  SearchBar,
+  Textarea,
+  computeTextareaLayout,
+  controlClass,
+  formatBirthDate,
+  stripBirthDigits,
+} from "../src/mobile/Input";
 import { QuantityStepper, clampQuantity } from "../src/mobile/QuantityStepper";
 
 test("Input uses light gray fill (bg-canvas/70), h-11 (44px), 15px text-body, and focus surface + primary border/ring", () => {
@@ -24,7 +36,7 @@ test("Field renders label, required mark, and error or help text", () => {
   assert.match(errHtml, /<p role="alert"[^>]*text-danger">주문자명을 입력해 주세요\.<\/p>/);
 });
 
-test("Textarea defaults to 1 row, hides resize handle (resize-none), auto-grows up to maxHeight then scrolls", () => {
+test("Textarea places maxLength counter inside bottom-left and hides scrollbar (subtle-scrollbar)", () => {
   assert.deepEqual(computeTextareaLayout(44, 140), { height: 44, overflowY: "hidden" });
   assert.deepEqual(computeTextareaLayout(92, 140), { height: 92, overflowY: "hidden" });
   assert.deepEqual(computeTextareaLayout(180, 140), { height: 140, overflowY: "auto" });
@@ -34,9 +46,37 @@ test("Textarea defaults to 1 row, hides resize handle (resize-none), auto-grows 
   );
   assert.match(html, /<textarea[^>]*rows="1"[^>]*maxLength="100"/);
   assert.match(html, /resize-none/);
-  assert.doesNotMatch(html, /resize-y/);
-  assert.match(html, /max-height:140px/);
-  assert.match(html, /9\s*\/\s*100/);
+  assert.match(html, /subtle-scrollbar/);
+  // 내부 좌측 하단 카운터 확인
+  assert.match(html, /class="[^"]*px-3\.5 pb-2 text-left text-caption[^"]*">9 \/ 100<\/div>/);
+});
+
+test("PasswordInput renders type=password with visibility toggle button", () => {
+  const html = renderToStaticMarkup(<PasswordInput id="pw" name="password" placeholder="비밀번호 입력" />);
+  assert.match(html, /<input[^>]*type="password"[^>]*id="pw"/);
+  assert.match(html, /<button type="button"[^>]*aria-label="비밀번호 보기"/);
+});
+
+test("BirthDateInput formats YYYY.MM.DD and posts clean 8-digit value", () => {
+  assert.equal(stripBirthDigits("1995-08-1599"), "19950815");
+  assert.equal(formatBirthDate("1995"), "1995");
+  assert.equal(formatBirthDate("199508"), "1995.08");
+  assert.equal(formatBirthDate("19950815"), "1995.08.15");
+
+  const html = renderToStaticMarkup(<BirthDateInput id="birth" name="birth" defaultValue="19950815" />);
+  assert.match(html, /<input type="hidden" name="birth" value="19950815"\/>/);
+  assert.match(html, /<input[^>]*inputMode="numeric"[^>]*id="birth"[^>]*value="1995\.08\.15"/);
+});
+
+test("OtpInput renders N numeric cells with one-time-code autocomplete and posts combined value", () => {
+  const html = renderToStaticMarkup(<OtpInput id="otp" name="otp" length={6} defaultValue="482" />);
+  assert.match(html, /<input type="hidden" name="otp" value="482"\/>/);
+  const cells = [...html.matchAll(/aria-label="인증번호 (\d)번째 자리"/g)];
+  assert.equal(cells.length, 6);
+  assert.match(html, /autoComplete="one-time-code"/);
+  assert.match(html, /value="4"/);
+  assert.match(html, /value="8"/);
+  assert.match(html, /value="2"/);
 });
 
 test("QuantityStepper clamps between min and max, disables boundary buttons, and renders animated count-up display", () => {

@@ -1,9 +1,12 @@
 import {
+  BirthDateInput,
   Button,
   CartIcon,
   Field,
   IconButton,
   Input,
+  OtpInput,
+  PasswordInput,
   QuantityStepper,
   SearchBar,
   SearchIcon,
@@ -142,6 +145,15 @@ export default async function MobileGalleryPage({
           </Field>
           <Field label="휴대폰 번호" htmlFor="m-phone" required error="올바른 휴대폰 번호를 입력해 주세요.">
             <Input id="m-phone" type="tel" inputMode="numeric" defaultValue="010-123" invalid />
+          </Field>
+          <Field label="비밀번호 (보기/숨기기 토글)" htmlFor="m-pw" required>
+            <PasswordInput id="m-pw" name="password" defaultValue="linkup2026!" placeholder="비밀번호를 입력하세요" />
+          </Field>
+          <Field label="생년월일 (성인인증 · 숫자 8자리 자동 포맷)" htmlFor="m-birth" required help="숫자만 입력하면 YYYY.MM.DD로 자동 변환됩니다">
+            <BirthDateInput id="m-birth" name="birth" defaultValue="19950815" />
+          </Field>
+          <Field label="인증번호 (6자리 OTP)" htmlFor="m-otp" required help="휴대폰으로 전송된 6자리 숫자를 입력하세요">
+            <OtpInput id="m-otp" name="otp" length={6} defaultValue="482" />
           </Field>
           <Field label="주류·매장 검색 (인풋 + 버튼 결합)" htmlFor="m-search">
             <SearchBar id="m-search" name="q" defaultValue="산토리 가쿠빈" placeholder="주류·매장 검색" buttonLabel="검색" />

@@ -63,3 +63,29 @@ export function CheckIcon({ className }: P) {
     </svg>
   );
 }
+
+export function EyeIcon({ className }: P) {
+  return (
+    <svg aria-hidden="true" viewBox="0 0 20 20" className={clsx("size-5 shrink-0", className)}>
+      <path d="M2 10s3-5.5 8-5.5S18 10 18 10s-3 5.5-8 5.5S2 10 2 10Z" {...stroke} />
+      <circle cx="10" cy="10" r="2.25" {...stroke} />
+    </svg>
+  );
+}
+
+export function EyeOffIcon({ className }: P) {
+  return (
+    <svg aria-hidden="true" viewBox="0 0 20 20" className={clsx("size-5 shrink-0", className)}>
+      <path d="M3 3l14 14M8.6 8.7a2.25 2.25 0 0 0 3.1 3.1M6.1 6.2C3.8 7.6 2 10 2 10s3 5.5 8 5.5c1.6 0 3-.5 4.2-1.2M9.5 4.6C9.7 4.5 9.8 4.5 10 4.5c5 0 8 5.5 8 5.5a14.4 14.4 0 0 1-2.2 2.9" {...stroke} />
+    </svg>
+  );
+}
+
+export function CalendarIcon({ className }: P) {
+  return (
+    <svg aria-hidden="true" viewBox="0 0 20 20" className={clsx("size-4 shrink-0", className)}>
+      <rect x="3" y="4.5" width="14" height="12.5" rx="2" {...stroke} />
+      <path d="M3 8.5h14M6.5 2.75v3M13.5 2.75v3" {...stroke} />
+    </svg>
+  );
+}
