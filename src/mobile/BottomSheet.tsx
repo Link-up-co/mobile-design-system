@@ -3,6 +3,7 @@
 import { useEffect, useId, useState, type ReactNode } from "react";
 import clsx from "clsx";
 import { CloseIcon } from "./icons";
+import { renderOverlayPortal, resolveActiveBrand } from "./portal";
 
 export type BottomSheetProps = {
   open: boolean;
@@ -75,8 +76,8 @@ export function BottomSheet({
   const hasHeader = hasTitle || showClose;
   const hasFooter = footer !== undefined && footer !== null && footer !== false;
 
-  return (
-    <div className="fixed inset-0 z-50 flex items-end justify-center">
+  return renderOverlayPortal(
+    <div data-brand={resolveActiveBrand()} className="fixed inset-0 z-50 flex items-end justify-center">
       {/* 서서히 어두워지며 은은하게 블러가 걸리는 디밍 배경 */}
       <div
         aria-hidden="true"

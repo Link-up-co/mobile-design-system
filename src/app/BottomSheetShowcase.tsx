@@ -10,7 +10,7 @@ export function BottomSheetShowcase() {
   const [store, setStore] = useState("gangnam");
 
   return (
-    <div className="space-y-2.5 rounded-card border border-line bg-surface p-4">
+    <div className="rounded-card border border-line bg-surface p-4">
       <div className="grid grid-cols-2 gap-2">
         <Button size="sm" variant="secondary" onClick={() => setActive("full")}>
           타이틀 O · 닫기 O · 버튼 O

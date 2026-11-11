@@ -3,6 +3,7 @@
 import { useEffect, useState, type ReactNode } from "react";
 import clsx from "clsx";
 import { CheckIcon } from "./icons";
+import { renderOverlayPortal, resolveActiveBrand } from "./portal";
 
 const EXIT_MS = 260;
 
@@ -62,8 +63,11 @@ export function Toast({
   const { visible, closing } = useAnimatedOpen(open, duration, onClose, triggerKey);
   if (!visible) return null;
 
-  return (
-    <div className="pointer-events-none fixed inset-x-0 top-0 z-50 mx-auto flex max-w-[412px] justify-center px-4 pt-[calc(0.875rem+env(safe-area-inset-top,0px))]">
+  return renderOverlayPortal(
+    <div
+      data-brand={resolveActiveBrand()}
+      className="pointer-events-none fixed inset-x-0 top-0 z-50 mx-auto flex max-w-[412px] justify-center px-4 pt-[calc(0.875rem+env(safe-area-inset-top,0px))]"
+    >
       <div
         key={triggerKey}
         role={variant === "danger" ? "alert" : "status"}
@@ -128,8 +132,11 @@ export function Snackbar({
   const { visible, closing } = useAnimatedOpen(open, duration, onClose, triggerKey);
   if (!visible) return null;
 
-  return (
-    <div className="pointer-events-none fixed inset-x-0 bottom-0 z-50 mx-auto max-w-[412px] px-4 pb-[calc(1rem+env(safe-area-inset-bottom,0px))]">
+  return renderOverlayPortal(
+    <div
+      data-brand={resolveActiveBrand()}
+      className="pointer-events-none fixed inset-x-0 bottom-0 z-50 mx-auto max-w-[412px] px-4 pb-[calc(1rem+env(safe-area-inset-bottom,0px))]"
+    >
       <div
         key={triggerKey}
         role="status"

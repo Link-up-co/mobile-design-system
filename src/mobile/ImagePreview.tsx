@@ -9,6 +9,7 @@ import {
 } from "react";
 import clsx from "clsx";
 import { CloseIcon } from "./icons";
+import { renderOverlayPortal } from "./portal";
 
 export type PreviewImageSource =
   | string
@@ -252,7 +253,7 @@ export function ImagePreview({
       ? `translate3d(calc(${-currentIdx * 100}% + ${dragX}px), 0, 0)`
       : `translate3d(${-currentIdx * 100}%, 0, 0)`;
 
-  return (
+  return renderOverlayPortal(
     <div
       role="dialog"
       aria-modal="true"

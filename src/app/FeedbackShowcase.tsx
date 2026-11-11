@@ -21,7 +21,7 @@ export function FeedbackShowcase() {
   }
 
   return (
-    <div className="space-y-2.5 rounded-card border border-line bg-surface p-4">
+    <div className="rounded-card border border-line bg-surface p-4">
       <div className="grid grid-cols-2 gap-2">
         <Button
           size="sm"

@@ -3,6 +3,7 @@
 import { useEffect, useId, useState, type ReactNode } from "react";
 import clsx from "clsx";
 import { Button } from "./Button";
+import { renderOverlayPortal, resolveActiveBrand } from "./portal";
 
 export type DialogProps = {
   open: boolean;
@@ -84,8 +85,8 @@ export function Dialog({
   const hasCancel = Boolean(cancelLabel);
   const hasDesc = description !== undefined && description !== null && description !== "";
 
-  return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-5">
+  return renderOverlayPortal(
+    <div data-brand={resolveActiveBrand()} className="fixed inset-0 z-50 flex items-center justify-center p-5">
       <div
         aria-hidden="true"
         data-dialog-backdrop=""
