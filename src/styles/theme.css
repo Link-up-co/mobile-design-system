@@ -30,6 +30,26 @@
   --radius-card: var(--mds-radius-card);
   --radius-sheet: var(--mds-radius-sheet);
 
+  /* Typography: 시원한 대비 스케일 (24 / 19 / 16 / 15 / 13 / 12 · 가격 22px) */
+  --text-hero: 1.5rem;
+  --text-hero--line-height: 1.3;
+  --text-hero--letter-spacing: -0.025em;
+  --text-title: 1.1875rem;
+  --text-title--line-height: 1.35;
+  --text-title--letter-spacing: -0.02em;
+  --text-section: 1rem;
+  --text-section--line-height: 1.4;
+  --text-section--letter-spacing: -0.015em;
+  --text-body: 0.9375rem;
+  --text-body--line-height: 1.5;
+  --text-body-sm: 0.8125rem;
+  --text-body-sm--line-height: 1.45;
+  --text-caption: 0.75rem;
+  --text-caption--line-height: 1.4;
+  --text-price: 1.375rem;
+  --text-price--line-height: 1.25;
+  --text-price--letter-spacing: -0.02em;
+
   --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
 }
 

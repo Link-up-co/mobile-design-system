@@ -1,3 +1,4 @@
+import { Text } from "../mobile";
 import { BRAND_PRESETS, buildListReturnHref, type BrandPreset } from "../tokens/index.ts";
 
 const SWATCHES: readonly { name: string; varName: string }[] = [
@@ -69,6 +70,19 @@ export default async function MobileGalleryPage({
               <div className="px-2 py-1.5 text-[11px] font-medium text-ink-secondary">{s.name}</div>
             </div>
           ))}
+        </div>
+      </section>
+
+      <section className="space-y-2.5">
+        <Text variant="section">Typography (24 / 19 / 16 / 15 / 13 / 12 · 가격 22px)</Text>
+        <div className="space-y-2 rounded-card border border-line bg-surface-subtle p-4">
+          <Text variant="hero" className="block">히어로 24 · 오늘 픽업 특가</Text>
+          <Text variant="title" className="block">화면 제목 19 · 주류 스마트오더</Text>
+          <Text variant="section" className="block">섹션 제목 16 · 추천 위스키</Text>
+          <Text variant="body" className="block">본문 15 · 가까운 매장에서 기다림 없이 바로 픽업하세요.</Text>
+          <Text variant="body-sm" tone="secondary" className="block">보조 본문 13 · 700ml · 알코올 40% · 일본</Text>
+          <Text variant="caption" tone="muted" className="block">캡션 12 · 성인인증 후 구매 가능 상품</Text>
+          <Text variant="price" tone="primary" className="block">42,800원</Text>
         </div>
       </section>
 
