@@ -159,9 +159,11 @@ export function RadioButtonGroup({
   className,
 }: RadioButtonGroupProps) {
   const [inner, setInner] = useState(defaultValue);
+  const [bouncedVal, setBouncedVal] = useState<string | null>(null);
   const current = controlled ?? inner;
 
   const select = (val: string) => {
+    setBouncedVal(val);
     if (controlled === undefined) setInner(val);
     onChange?.(val);
   };
@@ -221,16 +223,23 @@ export function RadioButtonGroup({
     <div role="radiogroup" aria-label={ariaLabel} className={clsx(COLS[columns], className)}>
       {options.map((o) => {
         const active = current === o.value;
+        const bouncing = active && bouncedVal === o.value;
         return (
           <label
             key={o.value}
+            style={
+              bouncing
+                ? { animation: "mds-radio-bounce 340ms cubic-bezier(0.22, 1, 0.36, 1)" }
+                : undefined
+            }
             className={clsx(
-              "pressable relative flex cursor-pointer select-none flex-col items-center justify-center rounded-control border px-3.5 text-center transition-[background-color,border-color,color,box-shadow] duration-150 ease-out",
+              "relative flex cursor-pointer select-none flex-col items-center justify-center overflow-hidden rounded-control border bg-surface px-3.5 text-center",
+              "transition-[border-color,color,box-shadow,transform] duration-200 ease-out active:not-has-disabled:scale-[0.97] motion-reduce:animate-none! motion-reduce:transition-none",
               o.subLabel ? "min-h-14 py-2.5" : size === "sm" ? "h-9" : "h-11",
               o.disabled && "cursor-not-allowed opacity-45",
               active
-                ? "border-primary bg-primary-soft/65 text-primary ring-1 ring-primary"
-                : "border-line bg-surface text-ink hover:border-line-strong hover:bg-surface-subtle",
+                ? "border-primary text-primary ring-1 ring-primary"
+                : "border-line text-ink hover:border-line-strong hover:bg-surface-subtle",
               "has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-offset-2 has-[:focus-visible]:outline-primary"
             )}
           >
@@ -243,13 +252,28 @@ export function RadioButtonGroup({
               onChange={() => select(o.value)}
               className="sr-only"
             />
-            <span className={clsx("text-body font-semibold", active ? "text-primary" : "text-ink")}>
+            {/* 중심에서 바깥으로 번지며 채워지는 배경 레이어 */}
+            <span
+              aria-hidden="true"
+              data-outline-fill=""
+              style={{ transform: active ? "scale(1)" : "scale(0.5)" }}
+              className={clsx(
+                "pointer-events-none absolute inset-0 rounded-[inherit] bg-primary-soft/75 transition-[transform,opacity] duration-320 ease-[cubic-bezier(0.22,1,0.36,1)] motion-reduce:transition-none",
+                active ? "opacity-100" : "opacity-0"
+              )}
+            />
+            <span
+              className={clsx(
+                "relative z-10 text-body font-semibold transition-colors duration-200",
+                active ? "text-primary" : "text-ink"
+              )}
+            >
               {o.label}
             </span>
             {o.subLabel && (
               <span
                 className={clsx(
-                  "mt-0.5 text-caption tabular-nums",
+                  "relative z-10 mt-0.5 text-caption tabular-nums transition-colors duration-200",
                   active ? "font-semibold text-primary/85" : "text-ink-muted"
                 )}
               >

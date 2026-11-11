@@ -198,3 +198,15 @@
     opacity: 0;
   }
 }
+
+@keyframes mds-radio-bounce {
+  0% {
+    transform: scale(0.96);
+  }
+  55% {
+    transform: scale(1.025);
+  }
+  100% {
+    transform: scale(1);
+  }
+}

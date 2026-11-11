@@ -58,6 +58,7 @@ test("RadioButtonGroup renders button-style radio options (grid and chip variant
   assert.match(grid, /role="radiogroup"/);
   assert.match(grid, /grid-cols-2/);
   assert.match(grid, /type="radio"/);
+  assert.match(grid, /data-outline-fill=""/);
   assert.match(grid, /하이볼 잔 패키지/);
   assert.match(grid, /46,900원/);
 
