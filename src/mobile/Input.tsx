@@ -289,7 +289,7 @@ export function OtpInput({
           onKeyDown={(e) => handleKeyDown(i, e)}
           onPaste={(e) => handlePaste(i, e)}
           className={clsx(
-            "h-12 min-w-0 flex-1 rounded-control border text-center text-title font-bold tabular-nums text-ink outline-none transition-[color,background-color,border-color,box-shadow,transform,scale] duration-220 ease-out",
+            "h-12 min-w-0 flex-1 rounded-control border text-center text-title font-bold tabular-nums text-ink outline-none transition-[color,background-color,border-color,box-shadow,transform,scale] duration-160 ease-out",
             "focus:scale-[1.03] focus:bg-surface focus:ring-2 disabled:cursor-not-allowed disabled:opacity-50",
             invalid
               ? "border-danger bg-danger-soft/40 focus:border-danger focus:ring-danger/15"

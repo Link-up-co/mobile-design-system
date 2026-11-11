@@ -44,7 +44,7 @@ export function Checkbox({
           aria-checked={indeterminate ? "mixed" : undefined}
           className={clsx(
             "peer size-5 cursor-[inherit] appearance-none rounded-[6px] border border-line-strong bg-surface",
-            "transition-[background-color,border-color,scale] duration-220 ease-[cubic-bezier(0.25,0.46,0.45,0.94)]",
+            "transition-[background-color,border-color,scale] duration-150 ease-[cubic-bezier(0.25,0.46,0.45,0.94)]",
             "checked:border-primary checked:bg-primary indeterminate:border-primary indeterminate:bg-primary",
             "not-checked:not-indeterminate:group-hover:border-ink-muted",
             "group-active:not-disabled:scale-90 motion-reduce:group-active:scale-100",

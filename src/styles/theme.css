@@ -86,8 +86,8 @@
   --mds-radius-sheet: 20px;
 
   /* Motion */
-  --mds-motion-press: 200ms;
-  --mds-motion-hover: 260ms;
+  --mds-motion-press: 135ms;
+  --mds-motion-hover: 180ms;
 }
 
 /* 서비스별 주입 가능한 브랜드 프리셋 (또는 루트 style 변수 오버라이드) */

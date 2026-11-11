@@ -27,7 +27,7 @@ export function Radio({ label, description, disabled, className, ...rest }: Radi
           disabled={disabled}
           className={clsx(
             "peer size-5 cursor-[inherit] appearance-none rounded-full border border-line-strong bg-surface",
-            "transition-[background-color,border-color,scale] duration-220 ease-[cubic-bezier(0.25,0.46,0.45,0.94)]",
+            "transition-[background-color,border-color,scale] duration-150 ease-[cubic-bezier(0.25,0.46,0.45,0.94)]",
             "checked:border-primary checked:bg-primary",
             "not-checked:group-hover:border-ink-muted",
             "group-active:not-disabled:scale-90 motion-reduce:group-active:scale-100",
@@ -37,7 +37,7 @@ export function Radio({ label, description, disabled, className, ...rest }: Radi
         />
         <span
           aria-hidden="true"
-          className="pointer-events-none absolute size-2 scale-0 rounded-full bg-primary-fg transition-[transform,scale] duration-220 ease-[cubic-bezier(0.22,1,0.36,1)] peer-checked:scale-100"
+          className="pointer-events-none absolute size-2 scale-0 rounded-full bg-primary-fg transition-[transform,scale] duration-160 ease-[cubic-bezier(0.22,1,0.36,1)] peer-checked:scale-100"
         />
       </span>
       {(label || description) && (
@@ -234,7 +234,7 @@ export function RadioButtonGroup({
             }
             className={clsx(
               "relative flex cursor-pointer touch-manipulation select-none flex-col items-center justify-center overflow-hidden rounded-control border bg-surface px-3.5 text-center [-webkit-tap-highlight-color:transparent]",
-              "transition-[border-color,color,box-shadow,transform,scale] duration-220 ease-[cubic-bezier(0.25,0.46,0.45,0.94)] active:not-has-disabled:scale-[0.97] motion-reduce:animate-none! motion-reduce:transition-none",
+              "transition-[border-color,color,box-shadow,transform,scale] duration-150 ease-[cubic-bezier(0.25,0.46,0.45,0.94)] active:not-has-disabled:scale-[0.97] motion-reduce:animate-none! motion-reduce:transition-none",
               o.subLabel ? "min-h-14 py-2.5" : size === "sm" ? "h-9" : "h-11",
               o.disabled && "cursor-not-allowed opacity-45",
               active
