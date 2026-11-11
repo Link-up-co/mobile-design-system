@@ -17,3 +17,6 @@
   - `<Textarea>`: 연회색 채움(`bg-canvas/70`) + 포커스 시 흰 배경·Primary 링, `maxLength` 지정 시 우측 하단 실시간 글자수 카운터(`현재 / 최대`).
   - `<QuantityStepper>`: 모바일 수량 조절기(`−` / 숫자 / `+`), `sm` 36px · `md` 44px 정사각형 터치 버튼, `min`/`max` 경계 자동 비활성화.
   - `<SearchBar>`: 인풋 + 액션 버튼 결합형(좌측 돋보기 아이콘, 값 입력 시 `×` 지우기 버튼, 우측 `Button` 결합).
+- Stage 5-3 Stepper count-up & Textarea auto-grow (2026-11-06):
+  - `<QuantityStepper>`: 수량 증감 방향에 따라 숫자가 아래→위(`+1`, `starting:translate-y-2.5 starting:scale-90`) 또는 위→아래(`-1`, `starting:-translate-y-2.5`)로 200ms 동안 탄력 있게 슬라이드되는 카운트업 인터랙션 적용.
+  - `<Textarea>`: 기본 1줄(`rows={1}`, 44px)에서 시작해 줄바꿈마다 높이가 자동으로 늘어나며, `maxHeight`(기본 140px)에 도달하면 높이가 고정되고 내부 세로 스크롤(`overflow-y: auto`)로 전환. 우하단 리사이즈 그립 제거(`resize-none`).

@@ -1,6 +1,8 @@
 "use client";
 
 import {
+  useCallback,
+  useEffect,
   useRef,
   useState,
   type InputHTMLAttributes,
@@ -45,41 +47,75 @@ export function Input({ size = "md", invalid = false, className, ...rest }: Inpu
   );
 }
 
+export function computeTextareaLayout(
+  scrollHeight: number,
+  maxHeight = 140,
+  minHeight = 44
+): { height: number; overflowY: "hidden" | "auto" } {
+  const raw = Math.max(minHeight, scrollHeight);
+  if (raw > maxHeight) {
+    return { height: maxHeight, overflowY: "auto" };
+  }
+  return { height: raw, overflowY: "hidden" };
+}
+
 export type TextareaProps = TextareaHTMLAttributes<HTMLTextAreaElement> & {
   invalid?: boolean;
+  /** 최대 높이(px). 이 높이를 넘기면 내부 스크롤로 전환된다 (기본 140px) */
+  maxHeight?: number;
 };
 
 /**
- * 모바일 다중 행 텍스트 입력.
- * - Input과 동일한 연회색 채움(`bg-canvas/70`) + 포커스 시 흰 배경·Primary 테두리·링
- * - `maxLength`가 주어지면 우측 하단에 실시간 글자수 카운터(`현재 / 최대`) 표시
+ * 모바일 자동 높이 조절(auto-grow) 텍스트 입력.
+ * - 기본 1줄(`rows={1}`, 최소 44px)에서 시작해 엔터·줄바꿈마다 높이가 자동으로 늘어남
+ * - `maxHeight`(기본 140px)를 넘으면 그 높이에서 멈추고 내부 세로 스크롤(`overflow-y: auto`)로 전환
+ * - 브라우저 기본 리사이즈 그립 아이콘 제거(`resize-none`)
  */
 export function Textarea({
   invalid = false,
-  rows = 3,
+  rows = 1,
   maxLength,
+  maxHeight = 140,
   value: controlled,
   defaultValue,
   onChange,
+  style,
   className,
   ...rest
 }: TextareaProps) {
   const [inner, setInner] = useState(() => String(defaultValue ?? ""));
   const current = controlled !== undefined ? String(controlled) : inner;
+  const ref = useRef<HTMLTextAreaElement>(null);
+
+  const adjustHeight = useCallback(() => {
+    const el = ref.current;
+    if (!el) return;
+    el.style.height = "auto";
+    const layout = computeTextareaLayout(el.scrollHeight, maxHeight);
+    el.style.height = `${layout.height}px`;
+    el.style.overflowY = layout.overflowY;
+  }, [maxHeight]);
+
+  useEffect(() => {
+    adjustHeight();
+  }, [current, adjustHeight]);
 
   const box = (
     <textarea
+      ref={ref}
       rows={rows}
       maxLength={maxLength}
       value={controlled}
       defaultValue={defaultValue}
       aria-invalid={invalid || undefined}
+      style={{ maxHeight: `${maxHeight}px`, ...style }}
       onChange={(e) => {
         if (controlled === undefined) setInner(e.target.value);
+        adjustHeight();
         onChange?.(e);
       }}
       className={clsx(
-        "w-full min-w-0 resize-y rounded-control border bg-canvas/70 px-3.5 py-3 text-body text-ink outline-none transition-[color,background-color,border-color,box-shadow] duration-150 ease-out placeholder:text-ink-muted",
+        "min-h-11 w-full min-w-0 resize-none overflow-y-hidden rounded-control border bg-canvas/70 px-3.5 py-2.5 text-body leading-[1.5] text-ink outline-none transition-[color,background-color,border-color,box-shadow] duration-150 ease-out placeholder:text-ink-muted",
         "focus:bg-surface focus:ring-2 disabled:cursor-not-allowed disabled:opacity-50",
         invalid
           ? "border-danger focus:border-danger focus:ring-danger/15"

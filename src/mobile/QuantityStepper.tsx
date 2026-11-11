@@ -23,9 +23,10 @@ export type QuantityStepperProps = {
 };
 
 /**
- * 모바일 수량 조절기 (`−` / 숫자 / `+`).
- * - 경계값(`min` / `max`)에서 해당 버튼 자동 비활성화
- * - 각 버튼은 터치하기 편한 정사각형 영역(`sm` 36×36, `md` 44×44)과 `pressable` 축소 피드백을 가짐
+ * 모바일 수량 조절기 (`−` / 숫자 / `+`) + 카운트업·다운 슬라이드 인터랙션.
+ * - 수량이 증가(`+`)하면 새 숫자가 아래에서 위로(`starting:translate-y-2.5`) 탄력 있게 올라오고,
+ *   감소(`−`)하면 위에서 아래로(`starting:-translate-y-2.5`) 내려오며 전환됨
+ * - 직접 숫자를 타이핑해서 바꿀 수 있도록 투명 입력칸을 위에 겹쳐 둠
  */
 export function QuantityStepper({
   id,
@@ -42,9 +43,14 @@ export function QuantityStepper({
 }: QuantityStepperProps) {
   const [inner, setInner] = useState(() => clampQuantity(defaultValue, min, max));
   const current = clampQuantity(controlled ?? inner, min, max);
+  const [dir, setDir] = useState<1 | -1>(1);
+  const [editing, setEditing] = useState(false);
 
   function commit(next: number) {
     const clamped = clampQuantity(next, min, max);
+    if (clamped !== current) {
+      setDir(clamped > current ? 1 : -1);
+    }
     if (controlled === undefined) setInner(clamped);
     onChange?.(clamped);
   }
@@ -77,22 +83,50 @@ export function QuantityStepper({
         </svg>
       </button>
 
-      <input
-        id={id}
-        name={name}
-        type="text"
-        inputMode="numeric"
-        disabled={disabled}
-        value={current}
-        onChange={(e) => {
-          const parsed = Number(e.target.value.replace(/[^0-9]/g, ""));
-          if (!Number.isNaN(parsed)) commit(parsed);
-        }}
+      <div
         className={clsx(
-          "h-full bg-transparent text-center font-semibold tabular-nums text-ink outline-none",
+          "relative flex h-full items-center justify-center overflow-hidden",
           size === "sm" ? "w-10 text-body-sm" : "w-12 text-body"
         )}
-      />
+      >
+        {/* 카운트업/다운 슬라이드 애니메이션 레이어 */}
+        <span
+          key={current}
+          aria-hidden="true"
+          data-stepper-value={current}
+          data-dir={dir}
+          className={clsx(
+            "pointer-events-none inline-block font-semibold tabular-nums text-ink",
+            "transition-[translate,scale,opacity] duration-200 ease-out",
+            "translate-y-0 scale-100 opacity-100",
+            dir > 0
+              ? "starting:translate-y-2.5 starting:scale-90 starting:opacity-0"
+              : "starting:-translate-y-2.5 starting:scale-90 starting:opacity-0",
+            "motion-reduce:transition-none",
+            editing && "opacity-0"
+          )}
+        >
+          {current}
+        </span>
+        <input
+          id={id}
+          name={name}
+          type="text"
+          inputMode="numeric"
+          disabled={disabled}
+          value={current}
+          onFocus={() => setEditing(true)}
+          onBlur={() => setEditing(false)}
+          onChange={(e) => {
+            const parsed = Number(e.target.value.replace(/[^0-9]/g, ""));
+            if (!Number.isNaN(parsed)) commit(parsed);
+          }}
+          className={clsx(
+            "absolute inset-0 size-full bg-transparent text-center font-semibold tabular-nums outline-none",
+            editing ? "text-ink" : "text-transparent caret-ink selection:bg-primary/15"
+          )}
+        />
+      </div>
 
       <button
         type="button"
