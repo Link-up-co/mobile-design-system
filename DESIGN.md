@@ -41,3 +41,6 @@
   - `originalPrice` 전달 시 정가 취소선 및 할인율(`computeDiscountRate`) 자동 계산, `onWishToggle`(하트 탄력 팝) · `onCartClick`(장바구니 담기) 콜백 전달 시에만 액션 버튼 선택적 노출, `soldOut` 일시품절 오버레이 지원.
 - Stage 10 AppHeader (2026-11-11):
   - `<AppHeader>`: 높이 `52px`(`h-13`) + 상단 `safe-area-inset-top`, 좌측 뒤로가기(`IconButton` + `BackIcon`, 기본 `history.back()` 폴백) 바로 옆 좌측 정렬 타이틀(`min-w-0 flex-1 truncate`로 길어지면 `...` 말줄임) + 우측 `actions` 슬롯(기능버튼 1~2개 `shrink-0` 고정).
+- Stage 11 Toast & Snackbar (2026-11-11):
+  - `<Toast>`: 상단 플로팅 캡슐 알림(`default` / `success` / `danger`), 320ms 슬라이드다운 진입 · 260ms 퇴장 후 언마운트.
+  - `<Snackbar>`: 하단 플로팅 다크 바(`rounded-card`), 메시지 + 우측 보조 액션 버튼(`actionLabel`), 340ms 슬라이드업 진입 · 260ms 퇴장. `ProductCard` 장바구니 `담기` 액션과 연동.

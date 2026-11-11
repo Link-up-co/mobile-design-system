@@ -8,6 +8,7 @@ const lanIps = Object.values(os.networkInterfaces())
 
 const nextConfig: NextConfig = {
   allowedDevOrigins: [...lanIps, "*.trycloudflare.com"],
+  devIndicators: false,
   reactStrictMode: true,
 };
 

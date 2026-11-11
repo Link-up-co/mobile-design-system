@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { ProductCard } from "../mobile";
+import { ProductCard, Snackbar, Toast } from "../mobile";
 
 function BottleIllustration({
   tone,
@@ -18,7 +18,6 @@ function BottleIllustration({
       className="flex size-full items-center justify-center p-3 transition-transform duration-300 ease-out group-hover:scale-[1.04]"
     >
       <svg aria-hidden="true" viewBox="0 0 80 80" className="size-4/5">
-        {/* 보틀 실루엣 (깔끔한 블랙 라인 일러스트) */}
         <path
           d="M34 10h12v6l-1.5 8c5.5 3.5 9.5 8.5 9.5 15v27a4 4 0 0 1-4 4H30a4 4 0 0 1-4-4V39c0-6.5 4-11.5 9.5-15L34 16v-6Z"
           fill="#FFFFFF"
@@ -104,20 +103,23 @@ const SAMPLE_PRODUCTS = [
 ] as const;
 
 export function ProductCardShowcase() {
-  const [cartNotice, setCartNotice] = useState<string | null>(null);
+  const [snack, setSnack] = useState<{ open: boolean; msg: string; seq: number }>({
+    open: false,
+    msg: "",
+    seq: 0,
+  });
+  const [cartToast, setCartToast] = useState(false);
 
   function addCart(name: string) {
-    setCartNotice(`'${name}' 상품을 장바구니에 담았습니다.`);
+    setSnack((prev) => ({
+      open: true,
+      msg: `${name} 상품을 장바구니에 담았습니다.`,
+      seq: prev.seq + 1,
+    }));
   }
 
   return (
     <div className="space-y-6">
-      {cartNotice && (
-        <div className="rounded-control bg-ink px-3.5 py-2.5 text-body-sm font-medium text-white">
-          {cartNotice}
-        </div>
-      )}
-
       {/* 1) 1/2 카드 (2열 그리드) */}
       <div className="space-y-2.5">
         <span className="block text-body-sm font-semibold text-ink-secondary">1/2 카드 (2열 Grid)</span>
@@ -163,6 +165,22 @@ export function ProductCardShowcase() {
           ))}
         </div>
       </div>
+
+      <Snackbar
+        open={snack.open}
+        triggerKey={snack.seq}
+        onClose={() => setSnack((prev) => ({ ...prev, open: false }))}
+        message={snack.msg}
+        actionLabel="장바구니 보기"
+        onAction={() => setCartToast(true)}
+      />
+
+      <Toast
+        open={cartToast}
+        onClose={() => setCartToast(false)}
+        variant="success"
+        message="장바구니로 이동합니다."
+      />
     </div>
   );
 }

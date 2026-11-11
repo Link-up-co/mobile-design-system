@@ -8,4 +8,5 @@ export * from "./Radio";
 export * from "./BottomSheet";
 export * from "./ProductCard";
 export * from "./AppHeader";
+export * from "./Feedback";
 export * from "./icons";

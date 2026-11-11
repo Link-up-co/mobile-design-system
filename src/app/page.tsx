@@ -21,6 +21,7 @@ import {
 } from "../mobile";
 import { BRAND_PRESETS, buildListReturnHref, type BrandPreset } from "../tokens/index.ts";
 import { BottomSheetShowcase } from "./BottomSheetShowcase";
+import { FeedbackShowcase } from "./FeedbackShowcase";
 import { ProductCardShowcase } from "./ProductCardShowcase";
 
 const STORE_REGIONS = [
@@ -322,6 +323,11 @@ export default async function MobileGalleryPage({
       <section className="space-y-3">
         <Text variant="section">ProductCard (1/2 그리드 · 가로 전체 리스트)</Text>
         <ProductCardShowcase />
+      </section>
+
+      <section className="space-y-3">
+        <Text variant="section">Toast & Snackbar (상단 토스트 · 하단 액션 스낵바)</Text>
+        <FeedbackShowcase />
       </section>
 
       <section className="space-y-2.5">
