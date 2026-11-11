@@ -10,6 +10,87 @@ export function computeDiscountRate(price: number, originalPrice?: number): numb
   return Math.round(((originalPrice - price) / originalPrice) * 100);
 }
 
+const SPARK_ANGLES = [
+  { deg: 0, color: "#EF4444" },
+  { deg: 60, color: "#FB7185" },
+  { deg: 120, color: "#F59E0B" },
+  { deg: 180, color: "#EF4444" },
+  { deg: 240, color: "#F43F5E" },
+  { deg: 300, color: "#FB923C" },
+] as const;
+
+function WishToggleButton({
+  wished,
+  burstSeq,
+  onToggle,
+  className,
+}: {
+  wished: boolean;
+  burstSeq: number;
+  onToggle: () => void;
+  className?: string;
+}) {
+  return (
+    <button
+      type="button"
+      aria-label={wished ? "찜 해제" : "찜하기"}
+      aria-pressed={wished}
+      onClick={onToggle}
+      className={clsx(
+        "pressable relative inline-flex cursor-pointer select-none items-center justify-center outline-transparent focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-primary",
+        wished ? "text-danger" : "text-ink-secondary hover:text-ink",
+        className
+      )}
+    >
+      {/* 찜 ON 시 퍼져 나가는 원형 쇼크웨이브 링 + 6방향 스파클 폭죽 */}
+      {burstSeq > 0 && wished && (
+        <span
+          key={`fx-${burstSeq}`}
+          aria-hidden="true"
+          data-wish-burst=""
+          className="pointer-events-none absolute inset-0 flex items-center justify-center motion-reduce:hidden"
+        >
+          <span
+            style={{ animation: "mds-heart-ring 480ms cubic-bezier(0.16, 1, 0.3, 1) forwards" }}
+            className="absolute size-5 rounded-full border-2 border-danger/70"
+          />
+          {SPARK_ANGLES.map((s) => (
+            <span
+              key={s.deg}
+              style={{ transform: `rotate(${s.deg}deg)` }}
+              className="absolute flex items-center justify-center"
+            >
+              <span
+                style={{
+                  backgroundColor: s.color,
+                  animation: "mds-heart-spark 540ms cubic-bezier(0.16, 1, 0.3, 1) forwards",
+                }}
+                className="size-1.5 rounded-full"
+              />
+            </span>
+          ))}
+        </span>
+      )}
+
+      <span
+        key={`icon-${burstSeq}`}
+        style={
+          burstSeq > 0
+            ? {
+                animation: wished
+                  ? "mds-heart-pop 520ms cubic-bezier(0.22, 1, 0.36, 1)"
+                  : "mds-heart-unpop 260ms ease-out",
+              }
+            : undefined
+        }
+        className="relative z-10 inline-flex motion-reduce:animate-none!"
+      >
+        <HeartIcon filled={wished} className="size-[21px]" />
+      </span>
+    </button>
+  );
+}
+
 export type ProductCardProps = {
   /** `grid`: 1/2 폭 세로형 카드 · `list`: 가로 전체 풀폭 리스트형 카드 */
   variant?: "grid" | "list";
@@ -58,13 +139,13 @@ export function ProductCard({
   className,
 }: ProductCardProps) {
   const [innerWished, setInnerWished] = useState(defaultWished);
-  const [wishPopping, setWishPopping] = useState(false);
+  const [burstSeq, setBurstSeq] = useState(0);
   const isWished = controlledWished ?? innerWished;
   const discount = computeDiscountRate(price, originalPrice);
 
   function toggleWish() {
     const next = !isWished;
-    setWishPopping(true);
+    setBurstSeq((n) => n + 1);
     if (controlledWished === undefined) setInnerWished(next);
     onWishToggle?.(next);
   }
@@ -152,24 +233,12 @@ export function ProductCard({
               {titleNode}
             </div>
             {onWishToggle && (
-              <button
-                type="button"
-                aria-label={isWished ? "찜 해제" : "찜하기"}
-                aria-pressed={isWished}
-                onClick={toggleWish}
-                onAnimationEnd={() => setWishPopping(false)}
-                style={
-                  wishPopping
-                    ? { animation: "mds-radio-bounce 320ms cubic-bezier(0.22, 1, 0.36, 1)" }
-                    : undefined
-                }
-                className={clsx(
-                  "pressable relative z-10 -mt-1 -mr-1.5 inline-flex size-8 shrink-0 cursor-pointer items-center justify-center rounded-full outline-transparent focus-visible:outline-2 focus-visible:outline-primary",
-                  isWished ? "text-danger" : "text-ink-muted hover:text-ink"
-                )}
-              >
-                <HeartIcon filled={isWished} />
-              </button>
+              <WishToggleButton
+                wished={isWished}
+                burstSeq={burstSeq}
+                onToggle={toggleWish}
+                className="z-10 -mt-1 -mr-1.5 size-9 shrink-0 rounded-full"
+              />
             )}
           </div>
 
@@ -181,9 +250,9 @@ export function ProductCard({
                 aria-label="장바구니 담기"
                 disabled={soldOut}
                 onClick={onCartClick}
-                className="pressable relative z-10 inline-flex size-8 shrink-0 cursor-pointer items-center justify-center rounded-full border border-line bg-surface text-ink outline-transparent hover:border-primary hover:text-primary focus-visible:outline-2 focus-visible:outline-primary disabled:cursor-not-allowed disabled:opacity-40"
+                className="pressable relative z-10 inline-flex size-9 shrink-0 cursor-pointer items-center justify-center rounded-full border border-line bg-surface text-ink outline-transparent hover:border-primary hover:text-primary focus-visible:outline-2 focus-visible:outline-primary disabled:cursor-not-allowed disabled:opacity-40"
               >
-                <CartIcon className="size-4" />
+                <CartIcon className="size-[18px]" />
               </button>
             )}
           </div>
@@ -208,37 +277,32 @@ export function ProductCard({
       {(onWishToggle || onCartClick) && (
         <div
           data-card-actions=""
-          className="relative z-10 mt-2 flex h-9 w-full overflow-hidden rounded-control border border-line bg-surface"
+          className="relative z-10 mt-2 flex h-10 w-full rounded-control border border-line bg-surface"
         >
           {onWishToggle && (
-            <button
-              type="button"
-              aria-label={isWished ? "찜 해제" : "찜하기"}
-              aria-pressed={isWished}
-              onClick={toggleWish}
-              onAnimationEnd={() => setWishPopping(false)}
-              style={
-                wishPopping
-                  ? { animation: "mds-radio-bounce 320ms cubic-bezier(0.22, 1, 0.36, 1)" }
-                  : undefined
-              }
+            <WishToggleButton
+              wished={isWished}
+              burstSeq={burstSeq}
+              onToggle={toggleWish}
               className={clsx(
-                "pressable inline-flex h-full cursor-pointer select-none items-center justify-center outline-transparent hover:bg-surface-subtle active:bg-canvas focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-primary",
-                onCartClick ? "w-9 shrink-0 border-r border-line" : "w-full",
-                isWished ? "text-danger" : "text-ink-secondary hover:text-ink"
+                "h-full hover:bg-surface-subtle active:bg-canvas",
+                onCartClick
+                  ? "w-10 shrink-0 rounded-l-[7px] border-r border-line"
+                  : "w-full rounded-[7px]"
               )}
-            >
-              <HeartIcon filled={isWished} />
-            </button>
+            />
           )}
           {onCartClick && (
             <button
               type="button"
               disabled={soldOut}
               onClick={onCartClick}
-              className="pressable inline-flex h-full flex-1 cursor-pointer select-none items-center justify-center gap-1.5 px-2.5 text-body-sm font-semibold text-ink outline-transparent hover:bg-surface-subtle active:bg-canvas focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-primary disabled:cursor-not-allowed disabled:opacity-45"
+              className={clsx(
+                "pressable inline-flex h-full flex-1 cursor-pointer select-none items-center justify-center gap-1.5 px-2.5 text-body-sm font-semibold text-ink outline-transparent hover:bg-surface-subtle active:bg-canvas focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-primary disabled:cursor-not-allowed disabled:opacity-45",
+                onWishToggle ? "rounded-r-[7px]" : "rounded-[7px]"
+              )}
             >
-              <CartIcon className="size-4" />
+              <CartIcon className="size-[18px]" />
               담기
             </button>
           )}

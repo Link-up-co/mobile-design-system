@@ -95,14 +95,14 @@ export function HeartIcon({ filled = false, className }: { filled?: boolean; cla
     <svg
       aria-hidden="true"
       viewBox="0 0 20 20"
-      className={clsx("size-4 shrink-0", className)}
+      className={clsx("size-5 shrink-0", className)}
       fill={filled ? "currentColor" : "none"}
       stroke="currentColor"
       strokeWidth={1.75}
       strokeLinecap="round"
       strokeLinejoin="round"
     >
-      <path d="M10 16.6s-6-3.9-6-8.3A3.5 3.5 0 0 1 10 5.9a3.5 3.5 0 0 1 6 2.4c0 4.4-6 8.3-6 8.3Z" />
+      <path d="M10 17.3s-7-4.35-7-9.35A4.05 4.05 0 0 1 10 5.15a4.05 4.05 0 0 1 7 2.8c0 5-7 9.35-7 9.35Z" />
     </svg>
   );
 }
