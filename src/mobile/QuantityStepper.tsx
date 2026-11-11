@@ -24,8 +24,7 @@ export type QuantityStepperProps = {
 
 /**
  * 모바일 수량 조절기 (`−` / 숫자 / `+`) + 카운트업·다운 슬라이드 인터랙션.
- * - 수량이 증가(`+`)하면 새 숫자가 아래에서 위로(`starting:translate-y-2.5`) 탄력 있게 올라오고,
- *   감소(`−`)하면 위에서 아래로(`starting:-translate-y-2.5`) 내려오며 전환됨
+ * - 이전 숫자가 반대 방향으로 밀려 나가고 새 숫자가 들어오는 2겹 키프레임 슬라이드(380ms)로 카운트 움직임이 눈으로 또렷하게 보임
  * - 직접 숫자를 타이핑해서 바꿀 수 있도록 투명 입력칸을 위에 겹쳐 둠
  */
 export function QuantityStepper({
@@ -43,13 +42,17 @@ export function QuantityStepper({
 }: QuantityStepperProps) {
   const [inner, setInner] = useState(() => clampQuantity(defaultValue, min, max));
   const current = clampQuantity(controlled ?? inner, min, max);
+  const [prev, setPrev] = useState<number | null>(null);
   const [dir, setDir] = useState<1 | -1>(1);
+  const [tick, setTick] = useState(0);
   const [editing, setEditing] = useState(false);
 
   function commit(next: number) {
     const clamped = clampQuantity(next, min, max);
     if (clamped !== current) {
+      setPrev(current);
       setDir(clamped > current ? 1 : -1);
+      setTick((t) => t + 1);
     }
     if (controlled === undefined) setInner(clamped);
     onChange?.(clamped);
@@ -89,25 +92,41 @@ export function QuantityStepper({
           size === "sm" ? "w-10 text-body-sm" : "w-12 text-body"
         )}
       >
-        {/* 카운트업/다운 슬라이드 애니메이션 레이어 */}
+        {/* 나가는 이전 숫자 레이어 */}
+        {prev !== null && !editing && (
+          <span
+            key={`out-${tick}`}
+            aria-hidden="true"
+            style={{
+              animation: `${dir > 0 ? "mds-step-out-up" : "mds-step-out-down"} 380ms cubic-bezier(0.22, 1, 0.36, 1) forwards`,
+            }}
+            className="pointer-events-none absolute inset-0 flex items-center justify-center font-semibold tabular-nums text-ink motion-reduce:hidden"
+          >
+            {prev}
+          </span>
+        )}
+
+        {/* 들어오는 현재 숫자 레이어 */}
         <span
-          key={current}
+          key={`in-${current}-${tick}`}
           aria-hidden="true"
           data-stepper-value={current}
           data-dir={dir}
+          style={
+            tick > 0
+              ? {
+                  animation: `${dir > 0 ? "mds-step-in-up" : "mds-step-in-down"} 380ms cubic-bezier(0.22, 1, 0.36, 1) forwards`,
+                }
+              : undefined
+          }
           className={clsx(
             "pointer-events-none inline-block font-semibold tabular-nums text-ink",
-            "transition-[translate,scale,opacity] duration-200 ease-out",
-            "translate-y-0 scale-100 opacity-100",
-            dir > 0
-              ? "starting:translate-y-2.5 starting:scale-90 starting:opacity-0"
-              : "starting:-translate-y-2.5 starting:scale-90 starting:opacity-0",
-            "motion-reduce:transition-none",
             editing && "opacity-0"
           )}
         >
           {current}
         </span>
+
         <input
           id={id}
           name={name}

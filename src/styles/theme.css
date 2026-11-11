@@ -146,3 +146,47 @@
 @utility safe-bottom {
   padding-bottom: env(safe-area-inset-bottom, 0px);
 }
+
+@keyframes mds-step-in-up {
+  from {
+    transform: translateY(65%) scale(0.88);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes mds-step-out-up {
+  from {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+  }
+  to {
+    transform: translateY(-65%) scale(0.88);
+    opacity: 0;
+  }
+}
+
+@keyframes mds-step-in-down {
+  from {
+    transform: translateY(-65%) scale(0.88);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes mds-step-out-down {
+  from {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+  }
+  to {
+    transform: translateY(65%) scale(0.88);
+    opacity: 0;
+  }
+}
