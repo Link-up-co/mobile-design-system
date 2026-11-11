@@ -32,3 +32,6 @@
 - Stage 7 BottomSheet (2026-11-11):
   - `<BottomSheet>`: 상단 `rounded-t-sheet`(`20px`), 배경 디밍 서서히 진입(480ms) + 컨텐츠 아래에서 슬라이드업(480ms), 닫힘 시 디밍·컨텐츠 동시 퇴장(360ms) 후 언마운트.
   - `title`(유/무) × `showClose`(유/무, 기본 `true`) × `footer`(유/무) 모든 조합 지원, `Escape`·배경 터치 닫기 및 `body` 스크롤 잠금 내장.
+- Stage 8 Select (2026-11-11):
+  - `<Select>`: `controlClass` 기반 셀렉트 트리거 + `<BottomSheet>` 연동. 트리거 클릭 시 바텀시트가 올라오고, 옵션을 선택하면 값 반영과 함께 바텀시트가 부드럽게 내려감.
+  - 옵션이 8개 이상이거나 `searchable` 지정 시 시트 상단에 고정 검색창 자동 노출(`label`·`description` 실시간 필터링 + 시트 높이 고정으로 타이핑 시 흔들림 방지).

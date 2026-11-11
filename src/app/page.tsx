@@ -13,6 +13,7 @@ import {
   RadioGroup,
   SearchBar,
   SearchIcon,
+  Select,
   Text,
   Textarea,
 } from "../mobile";
@@ -158,6 +159,42 @@ export default async function MobileGalleryPage({
           </Field>
           <Field label="인증번호 (6자리 OTP)" htmlFor="m-otp" required help="휴대폰으로 전송된 6자리 숫자를 입력하세요">
             <OtpInput id="m-otp" name="otp" length={6} defaultValue="482" />
+          </Field>
+          <Field label="픽업 희망 시간 (바텀시트 Select)" htmlFor="m-pickup-slot" required>
+            <Select
+              id="m-pickup-slot"
+              name="pickupSlot"
+              title="픽업 희망 시간 선택"
+              placeholder="방문 시간을 선택하세요"
+              defaultValue="18-20"
+              options={[
+                { value: "now", label: "지금 바로 방문 (30분 내 준비)" },
+                { value: "16-18", label: "오후 4:00 ~ 6:00" },
+                { value: "18-20", label: "오후 6:00 ~ 8:00 (퇴근 시간대)" },
+                { value: "20-22", label: "오후 8:00 ~ 10:00" },
+              ]}
+            />
+          </Field>
+          <Field label="픽업 매장 선택 (옵션 다수 · 검색형 Select)" htmlFor="m-pickup-store" required>
+            <Select
+              id="m-pickup-store"
+              name="pickupStore"
+              title="전국 픽업 매장 선택"
+              placeholder="픽업할 매장을 선택하세요"
+              searchPlaceholder="매장명 또는 지역 검색 (예: 성수, 부산)"
+              options={[
+                { value: "gangnam", label: "시크릿오더 강남본점", description: "서울 강남구 · 강남역 11번 출구" },
+                { value: "seongsu", label: "시크릿오더 성수점", description: "서울 성동구 · 성수역 3번 출구" },
+                { value: "yeouido", label: "시크릿오더 여의도점", description: "서울 영등포구 · 더현대 맞은편" },
+                { value: "hongdae", label: "시크릿오더 연남·홍대점", description: "서울 마포구 · 홍대입구역 3번 출구" },
+                { value: "hannam", label: "시크릿오더 한남점", description: "서울 용산구 · 한강진역 2번 출구" },
+                { value: "pangyo", label: "시크릿오더 판교점", description: "경기 성남시 · 판교역 1번 출구" },
+                { value: "gwanggyo", label: "시크릿오더 광교점", description: "경기 수원시 · 광교중앙역" },
+                { value: "seomyeon", label: "시크릿오더 부산 서면점", description: "부산 부산진구 · 서면역 2번 출구" },
+                { value: "centum", label: "시크릿오더 부산 센텀점", description: "부산 해운대구 · 센텀시티역" },
+                { value: "dongseong", label: "시크릿오더 대구 동성로점", description: "대구 중구 · 중앙로역" },
+              ]}
+            />
           </Field>
           <Field label="주류·매장 검색 (인풋 + 버튼 결합)" htmlFor="m-search">
             <SearchBar id="m-search" name="q" defaultValue="산토리 가쿠빈" placeholder="주류·매장 검색" buttonLabel="검색" />
