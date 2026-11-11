@@ -31,7 +31,7 @@ test("ProductCard renders 1/2 grid variant with formatted price, auto discount, 
   assert.match(html, /136,000원/);
   assert.match(html, /160,000원/);
   assert.match(html, /aria-label="찜 해제"/);
-  assert.match(html, /aria-label="장바구니 담기"/);
+  assert.match(html, /<\/div><button type="button"[^>]*w-full[^>]*>.*담기<\/span><\/button>/);
 });
 
 test("ProductCard renders full-width list variant and omits wish/cart buttons when callbacks are omitted", () => {

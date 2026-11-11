@@ -3,6 +3,7 @@
 import { useState, type ReactNode } from "react";
 import clsx from "clsx";
 import { formatCurrency } from "../tokens";
+import { Button } from "./Button";
 import { CartIcon, HeartIcon } from "./icons";
 
 export function computeDiscountRate(price: number, originalPrice?: number): number {
@@ -224,21 +225,23 @@ export function ProductCard({
             <HeartIcon filled={isWished} />
           </button>
         )}
-
-        {onCartClick && (
-          <button
-            type="button"
-            aria-label="장바구니 담기"
-            disabled={soldOut}
-            onClick={onCartClick}
-            className="pressable absolute right-2 bottom-2 z-10 inline-flex size-8 cursor-pointer items-center justify-center rounded-full border border-line/80 bg-surface/92 text-ink shadow-xs outline-transparent hover:border-primary hover:text-primary focus-visible:outline-2 focus-visible:outline-primary disabled:cursor-not-allowed disabled:opacity-40"
-          >
-            <CartIcon className="size-4" />
-          </button>
-        )}
       </div>
 
-      <div className="mt-2.5 flex min-w-0 flex-col gap-1">
+      {onCartClick && (
+        <Button
+          variant="secondary"
+          size="sm"
+          fullWidth
+          disabled={soldOut}
+          icon={<CartIcon className="size-4" />}
+          onClick={onCartClick}
+          className="z-10 mt-2"
+        >
+          담기
+        </Button>
+      )}
+
+      <div className="mt-2 flex min-w-0 flex-col gap-1">
         {subtitle && <p className="truncate text-caption text-ink-muted">{subtitle}</p>}
         {titleNode}
         <div className="mt-0.5">{priceBlock}</div>
