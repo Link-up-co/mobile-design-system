@@ -51,8 +51,8 @@ function WishToggleButton({
           className="pointer-events-none absolute inset-0 flex items-center justify-center motion-reduce:hidden"
         >
           <span
-            style={{ animation: "mds-heart-ring 480ms cubic-bezier(0.16, 1, 0.3, 1) forwards" }}
-            className="absolute size-5 rounded-full border-2 border-danger/70"
+            style={{ animation: "mds-heart-ring 620ms cubic-bezier(0.25, 0.8, 0.25, 1) forwards" }}
+            className="absolute size-5 rounded-full border-[1.5px] border-danger/60"
           />
           {SPARK_ANGLES.map((s) => (
             <span
@@ -63,9 +63,9 @@ function WishToggleButton({
               <span
                 style={{
                   backgroundColor: s.color,
-                  animation: "mds-heart-spark 540ms cubic-bezier(0.16, 1, 0.3, 1) forwards",
+                  animation: "mds-heart-spark 660ms cubic-bezier(0.25, 0.8, 0.25, 1) forwards",
                 }}
-                className="size-1.5 rounded-full"
+                className="size-1 rounded-full"
               />
             </span>
           ))}
@@ -78,8 +78,8 @@ function WishToggleButton({
           burstSeq > 0
             ? {
                 animation: wished
-                  ? "mds-heart-pop 520ms cubic-bezier(0.22, 1, 0.36, 1)"
-                  : "mds-heart-unpop 260ms ease-out",
+                  ? "mds-heart-pop 640ms cubic-bezier(0.25, 0.8, 0.25, 1)"
+                  : "mds-heart-unpop 320ms cubic-bezier(0.25, 0.8, 0.25, 1)",
               }
             : undefined
         }
