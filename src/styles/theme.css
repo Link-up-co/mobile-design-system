@@ -1,0 +1,28 @@
+@import "tailwindcss";
+
+:root {
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --mds-motion-press: 90ms;
+  --mds-motion-hover: 160ms;
+}
+
+@utility pressable {
+  transition-property: color, background-color, border-color, outline-color, box-shadow, opacity, transform;
+  transition-duration: var(--mds-motion-hover);
+  transition-timing-function: var(--ease-out);
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+  &:not(:disabled):not([aria-disabled="true"]):active {
+    transition-duration: var(--mds-motion-press);
+    transform: scale(0.97);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    &:not(:disabled):not([aria-disabled="true"]):active {
+      transform: none;
+    }
+  }
+}
+
+@utility safe-bottom {
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
