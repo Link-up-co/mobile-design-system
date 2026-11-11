@@ -32,4 +32,6 @@ test("theme.css defines semantic colors, standard rounded radii (8/12/20px), Zin
     assert.match(css, new RegExp(`\\[data-brand="${brand}"\\]`));
     assert.ok(BRAND_PRESETS.some((p) => p.key === brand));
   }
+
+  assert.match(css, /@utility pressable[\s\S]*transition-property:[^;]*scale/);
 });

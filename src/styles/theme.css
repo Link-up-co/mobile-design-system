@@ -86,8 +86,8 @@
   --mds-radius-sheet: 20px;
 
   /* Motion */
-  --mds-motion-press: 90ms;
-  --mds-motion-hover: 160ms;
+  --mds-motion-press: 200ms;
+  --mds-motion-hover: 260ms;
 }
 
 /* 서비스별 주입 가능한 브랜드 프리셋 (또는 루트 style 변수 오버라이드) */
@@ -127,18 +127,19 @@
 }
 
 @utility pressable {
-  transition-property: color, background-color, border-color, outline-color, box-shadow, opacity, transform;
+  transition-property: color, background-color, border-color, outline-color, box-shadow, opacity, transform, scale;
   transition-duration: var(--mds-motion-hover);
-  transition-timing-function: var(--ease-out);
+  transition-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
   -webkit-tap-highlight-color: transparent;
   touch-action: manipulation;
   &:not(:disabled):not([aria-disabled="true"]):active {
     transition-duration: var(--mds-motion-press);
-    transform: scale(0.97);
+    transition-timing-function: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    scale: 0.965;
   }
   @media (prefers-reduced-motion: reduce) {
     &:not(:disabled):not([aria-disabled="true"]):active {
-      transform: none;
+      scale: none;
     }
   }
 }

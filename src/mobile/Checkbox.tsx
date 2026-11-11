@@ -31,7 +31,7 @@ export function Checkbox({
   return (
     <label
       className={clsx(
-        "group inline-flex min-h-9 cursor-pointer select-none items-start gap-2.5 py-1 text-body text-ink",
+        "group inline-flex min-h-9 cursor-pointer touch-manipulation select-none items-start gap-2.5 py-1 text-body text-ink [-webkit-tap-highlight-color:transparent]",
         "has-disabled:cursor-not-allowed has-disabled:opacity-50",
         className
       )}
@@ -44,7 +44,7 @@ export function Checkbox({
           aria-checked={indeterminate ? "mixed" : undefined}
           className={clsx(
             "peer size-5 cursor-[inherit] appearance-none rounded-[6px] border border-line-strong bg-surface",
-            "transition-[background-color,border-color,scale] duration-150 ease-out",
+            "transition-[background-color,border-color,scale] duration-220 ease-[cubic-bezier(0.25,0.46,0.45,0.94)]",
             "checked:border-primary checked:bg-primary indeterminate:border-primary indeterminate:bg-primary",
             "not-checked:not-indeterminate:group-hover:border-ink-muted",
             "group-active:not-disabled:scale-90 motion-reduce:group-active:scale-100",

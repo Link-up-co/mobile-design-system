@@ -163,7 +163,7 @@ export function Select({
                     disabled={o.disabled}
                     onClick={() => handleSelect(o)}
                     className={clsx(
-                      "pressable flex min-h-12 w-full cursor-pointer items-center justify-between gap-3 py-2.5 text-left transition-colors duration-150",
+                      "pressable flex min-h-12 w-full cursor-pointer items-center justify-between gap-3 py-2.5 text-left",
                       o.disabled
                         ? "cursor-not-allowed opacity-45"
                         : active
