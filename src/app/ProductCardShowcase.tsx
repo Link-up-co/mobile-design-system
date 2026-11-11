@@ -141,10 +141,10 @@ export function ProductCardShowcase() {
         </div>
       </div>
 
-      {/* 2) 가로 전체 카드 (1px 구분선 플랫 리스트) */}
-      <div className="space-y-1">
-        <span className="block text-body-sm font-semibold text-ink-secondary">가로 전체 카드 (풀폭 List · 1px 구분선)</span>
-        <div className="divide-y divide-line border-y border-line">
+      {/* 2) 가로 전체 카드 (좌우 여백 없이 스크린 풀폭 · 1px 구분선 플랫 리스트) */}
+      <div className="space-y-2">
+        <span className="block text-body-sm font-semibold text-ink-secondary">가로 전체 카드 (스크린 풀폭 · 1px 구분선)</span>
+        <div className="-mx-5 divide-y divide-line border-y border-line">
           {SAMPLE_PRODUCTS.slice(0, 3).map((p) => (
             <ProductCard
               key={p.id}

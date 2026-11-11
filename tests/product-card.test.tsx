@@ -45,6 +45,8 @@ test("ProductCard renders full-width list variant and omits wish/cart buttons wh
     />
   );
   assert.match(html, /data-variant="list"/);
+  assert.match(html, /w-full/);
+  assert.match(html, /px-4/);
   assert.match(html, /size-24/);
   assert.match(html, /일시품절/);
   assert.match(html, /109,000원/);

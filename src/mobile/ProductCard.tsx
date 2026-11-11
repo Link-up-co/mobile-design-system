@@ -136,11 +136,11 @@ export function ProductCard({
       <article
         data-variant="list"
         className={clsx(
-          "group relative flex w-full items-center gap-3.5 py-3.5 transition-[scale] duration-135 ease-out has-[.card-link:active]:scale-[0.985] motion-reduce:transition-none",
+          "group relative flex w-full items-center gap-3.5 px-4 py-3.5 transition-colors duration-150 ease-out has-[.card-link:active]:bg-canvas/70",
           className
         )}
       >
-        <div className="relative size-24 shrink-0 overflow-hidden rounded-card bg-canvas/70">
+        <div className="relative size-24 shrink-0 overflow-hidden rounded-card bg-canvas/70 transition-[scale] duration-135 ease-out group-has-[.card-link:active]:scale-[0.97] motion-reduce:transition-none">
           {media}
           {soldOutOverlay}
         </div>
