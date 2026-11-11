@@ -3,7 +3,6 @@
 import { useState, type ReactNode } from "react";
 import clsx from "clsx";
 import { formatCurrency } from "../tokens";
-import { Button } from "./Button";
 import { CartIcon, HeartIcon } from "./icons";
 
 export function computeDiscountRate(price: number, originalPrice?: number): number {
@@ -204,41 +203,46 @@ export function ProductCard({
       <div className="relative aspect-square w-full overflow-hidden rounded-card bg-canvas/70">
         {media}
         {soldOutOverlay}
-
-        {onWishToggle && (
-          <button
-            type="button"
-            aria-label={isWished ? "찜 해제" : "찜하기"}
-            aria-pressed={isWished}
-            onClick={toggleWish}
-            onAnimationEnd={() => setWishPopping(false)}
-            style={
-              wishPopping
-                ? { animation: "mds-radio-bounce 320ms cubic-bezier(0.22, 1, 0.36, 1)" }
-                : undefined
-            }
-            className={clsx(
-              "pressable absolute top-2 right-2 z-10 inline-flex size-8 cursor-pointer items-center justify-center rounded-full bg-surface/85 shadow-xs backdrop-blur-xs outline-transparent focus-visible:outline-2 focus-visible:outline-primary",
-              isWished ? "text-danger" : "text-ink-secondary hover:text-ink"
-            )}
-          >
-            <HeartIcon filled={isWished} />
-          </button>
-        )}
       </div>
 
-      {onCartClick && (
-        <Button
-          variant="secondary"
-          size="sm"
-          fullWidth
-          disabled={soldOut}
-          icon={<CartIcon className="size-4" />}
-          onClick={onCartClick}
-          className="z-10 mt-2"
+      {(onWishToggle || onCartClick) && (
+        <div
+          data-card-actions=""
+          className="relative z-10 mt-2 flex h-9 w-full overflow-hidden rounded-control border border-line bg-surface"
         >
-          담기
-        </Button>
+          {onWishToggle && (
+            <button
+              type="button"
+              aria-label={isWished ? "찜 해제" : "찜하기"}
+              aria-pressed={isWished}
+              onClick={toggleWish}
+              onAnimationEnd={() => setWishPopping(false)}
+              style={
+                wishPopping
+                  ? { animation: "mds-radio-bounce 320ms cubic-bezier(0.22, 1, 0.36, 1)" }
+                  : undefined
+              }
+              className={clsx(
+                "pressable inline-flex h-full cursor-pointer select-none items-center justify-center outline-transparent hover:bg-surface-subtle active:bg-canvas focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-primary",
+                onCartClick ? "w-9 shrink-0 border-r border-line" : "w-full",
+                isWished ? "text-danger" : "text-ink-secondary hover:text-ink"
+              )}
+            >
+              <HeartIcon filled={isWished} />
+            </button>
+          )}
+          {onCartClick && (
+            <button
+              type="button"
+              disabled={soldOut}
+              onClick={onCartClick}
+              className="pressable inline-flex h-full flex-1 cursor-pointer select-none items-center justify-center gap-1.5 px-2.5 text-body-sm font-semibold text-ink outline-transparent hover:bg-surface-subtle active:bg-canvas focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-primary disabled:cursor-not-allowed disabled:opacity-45"
+            >
+              <CartIcon className="size-4" />
+              담기
+            </button>
+          )}
+        </div>
       )}
 
       <div className="mt-2 flex min-w-0 flex-col gap-1">
