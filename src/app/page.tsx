@@ -1,4 +1,4 @@
-import { Text } from "../mobile";
+import { Button, CartIcon, IconButton, SearchIcon, Text } from "../mobile";
 import { BRAND_PRESETS, buildListReturnHref, type BrandPreset } from "../tokens/index.ts";
 
 const SWATCHES: readonly { name: string; varName: string }[] = [
@@ -83,6 +83,43 @@ export default async function MobileGalleryPage({
           <Text variant="body-sm" tone="secondary" className="block">보조 본문 13 · 700ml · 알코올 40% · 일본</Text>
           <Text variant="caption" tone="muted" className="block">캡션 12 · 성인인증 후 구매 가능 상품</Text>
           <Text variant="price" tone="primary" className="block">42,800원</Text>
+        </div>
+      </section>
+
+      <section className="space-y-3">
+        <Text variant="section">Button (sm 36 · md 44 · lg 52px)</Text>
+        <div className="space-y-2.5 rounded-card border border-line bg-surface-subtle p-4">
+          <div className="flex flex-wrap items-center gap-2">
+            <Button size="sm">기본 sm</Button>
+            <Button size="sm" variant="soft">연한 브랜드</Button>
+            <Button size="sm" variant="secondary">테두리</Button>
+            <Button size="sm" variant="ghost">고스트</Button>
+          </div>
+          <div className="flex flex-wrap items-center gap-2">
+            <Button icon={<CartIcon />}>장바구니</Button>
+            <Button variant="soft">매장 선택</Button>
+            <Button variant="secondary">취소</Button>
+            <Button variant="danger">주문취소</Button>
+          </div>
+          <div className="flex items-center gap-2">
+            <Button size="lg" fullWidth>
+              42,800원 픽업 주문하기
+            </Button>
+          </div>
+          <div className="flex items-center justify-between pt-1">
+            <div className="flex items-center gap-2">
+              <Button size="sm" loading>
+                결제 요청 중
+              </Button>
+              <Button size="sm" disabled>
+                일시품절
+              </Button>
+            </div>
+            <div className="flex items-center gap-1">
+              <IconButton aria-label="검색" icon={<SearchIcon />} />
+              <IconButton aria-label="장바구니" badge={3} icon={<CartIcon />} />
+            </div>
+          </div>
         </div>
       </section>
 

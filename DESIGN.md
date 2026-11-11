@@ -11,3 +11,4 @@
   - Primary Brand: 기본 `Cobalt Blue` (`#0066FF`), 서비스별로 `data-brand="cobalt|ink|amber|emerald|rose"` 또는 CSS 변수(`--mds-primary` 등)로 교체 가능 (`BRAND_PRESETS`)
   - Radius: 표준 라운드 — `rounded-control` `8px`(버튼·인풋), `rounded-card` `12px`(카드·박스), `rounded-sheet` `20px`(바텀시트 상단)
 - Stage 3 Typography (2026-11-06): 시원한 대비 스케일 — `hero` 24px(700) · `title` 19px(700) · `section` 16px(600) · `body` 15px(400) · `body-sm` 13px(400) · `caption` 12px(500) · `price` 22px(800, `tabular-nums`). `<Text>` 컴포넌트 제공.
+- Stage 4 Button (2026-11-06): 터치 표준 높이 `sm` 36px · `md` 44px(기본) · `lg` 52px(하단 고정 CTA, `fullWidth`). 변형: `primary`(브랜드 채움) · `soft`(`primary-soft` 채움 + `primary` 글자) · `secondary`(흰 바탕 + 1px `line`) · `danger` · `ghost`. `IconButton`(44×44px, `badge` 카운트 지원), 로딩 스피너 오버레이(폭 유지), `pressable` 0.97 축소 피드백.
