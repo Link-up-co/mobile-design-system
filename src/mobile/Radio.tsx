@@ -167,22 +167,36 @@ export function RadioButtonGroup({
   };
 
   if (variant === "segmented") {
+    const count = Math.max(1, options.length);
+    const activeIndex = options.findIndex((o) => o.value === current);
+
     return (
       <div
         role="radiogroup"
         aria-label={ariaLabel}
-        className={clsx("grid auto-cols-fr grid-flow-col gap-1 rounded-control bg-canvas p-1", className)}
+        className={clsx("relative grid auto-cols-fr grid-flow-col rounded-control bg-canvas p-1", className)}
       >
+        {activeIndex >= 0 && (
+          <span
+            aria-hidden="true"
+            data-segmented-thumb=""
+            style={{
+              width: `calc((100% - 8px) / ${count})`,
+              transform: `translateX(${activeIndex * 100}%)`,
+            }}
+            className="pointer-events-none absolute top-1 bottom-1 left-1 rounded-[6px] bg-surface shadow-xs transition-transform duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] motion-reduce:transition-none"
+          />
+        )}
         {options.map((o) => {
           const active = current === o.value;
           return (
             <label
               key={o.value}
               className={clsx(
-                "pressable relative flex cursor-pointer select-none items-center justify-center rounded-[6px] px-3 text-center font-semibold transition-[background-color,color,box-shadow] duration-150 ease-out",
+                "pressable relative z-10 flex cursor-pointer select-none items-center justify-center rounded-[6px] px-3 text-center font-semibold transition-colors duration-200 ease-out",
                 size === "sm" ? "h-8 text-body-sm" : "h-9 text-body-sm",
                 o.disabled && "cursor-not-allowed opacity-45",
-                active ? "bg-surface text-ink shadow-xs" : "text-ink-muted hover:text-ink-secondary",
+                active ? "text-ink" : "text-ink-muted hover:text-ink-secondary",
                 "has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-offset-1 has-[:focus-visible]:outline-primary"
               )}
             >

@@ -69,9 +69,10 @@ test("RadioButtonGroup renders button-style radio options (grid and chip variant
         { value: "cold", label: "냉장 보관" },
         { value: "room", label: "상온 보관" },
       ]}
-      defaultValue="cold"
+      defaultValue="room"
     />
   );
   assert.match(segmented, /bg-canvas/);
+  assert.match(segmented, /data-segmented-thumb=""[^>]*translateX\(100%\)/);
   assert.match(segmented, /냉장 보관/);
 });
