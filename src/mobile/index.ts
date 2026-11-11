@@ -4,4 +4,5 @@ export * from "./Input";
 export * from "./QuantityStepper";
 export * from "./Checkbox";
 export * from "./Radio";
+export * from "./BottomSheet";
 export * from "./icons";

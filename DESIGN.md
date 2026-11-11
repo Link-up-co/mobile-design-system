@@ -29,3 +29,6 @@
   - `<Checkbox>` / `<CheckboxGroup>`: 20×20px(`rounded-[6px]`) 터치 박스 + 체크 선 드로잉 애니메이션(200ms) + `allLabel` 전체 동의(일부 선택 시 `−` 표시) + `description` 보조 문구 지원.
   - `<Radio>` / `<RadioGroup>`: 20×20px 원형 라디오 + 선택 시 안쪽 흰 원 스케일업(150ms) + `description` 보조 문구 지원.
   - `<RadioButtonGroup>`: 버튼형 라디오 2종 — `outline`(테두리+연한 브랜드 채움, `subLabel` 가격/부가정보 및 `columns` 그리드 지원) 및 `segmented`(회색 트랙 위 흰 탭 전환형).
+- Stage 7 BottomSheet (2026-11-11):
+  - `<BottomSheet>`: 상단 `rounded-t-sheet`(`20px`), 배경 디밍 서서히 진입(480ms) + 컨텐츠 아래에서 슬라이드업(480ms), 닫힘 시 디밍·컨텐츠 동시 퇴장(360ms) 후 언마운트.
+  - `title`(유/무) × `showClose`(유/무, 기본 `true`) × `footer`(유/무) 모든 조합 지원, `Escape`·배경 터치 닫기 및 `body` 스크롤 잠금 내장.

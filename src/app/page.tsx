@@ -17,6 +17,7 @@ import {
   Textarea,
 } from "../mobile";
 import { BRAND_PRESETS, buildListReturnHref, type BrandPreset } from "../tokens/index.ts";
+import { BottomSheetShowcase } from "./BottomSheetShowcase";
 
 const SWATCHES: readonly { name: string; varName: string }[] = [
   { name: "primary", varName: "--mds-primary" },
@@ -233,6 +234,11 @@ export default async function MobileGalleryPage({
             />
           </div>
         </div>
+      </section>
+
+      <section className="space-y-3">
+        <Text variant="section">BottomSheet (디밍 + 슬라이드업 · 4가지 조합)</Text>
+        <BottomSheetShowcase />
       </section>
 
       <section className="space-y-2.5">
