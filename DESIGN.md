@@ -36,3 +36,6 @@
   - `<Select>`: `controlClass` 기반 셀렉트 트리거 + `<BottomSheet>` 연동. 트리거 클릭 시 바텀시트가 올라오고, 옵션을 선택하면 값 반영과 함께 바텀시트가 부드럽게 내려감.
   - 옵션이 8개 이상이거나 `searchable` 지정 시 시트 상단에 고정 검색창 자동 노출(`label`·`description` 실시간 필터링 + 시트 높이 고정으로 타이핑 시 흔들림 방지).
   - `<Select>` 검색·성능 확장: 외부 패키지 없이 한글 초성 검색(`ㅅㅅ`→성수, `ㅂㅅㅅㅁ`→부산서면, 조합 중 혼합어 `강ㄴ`→강남) 및 고정 행 높이(`48px`/`60px`) 가상 스크롤(`computeVirtualRange`, `overscan=5`) 적용.
+- Stage 9 ProductCard (2026-11-11):
+  - `<ProductCard>`: `variant="grid"`(1/2 폭 2열 정방형 썸네일 세로형) 및 `variant="list"`(96×96 썸네일 + 우측 정보 풀폭 가로 리스트형, 1px 구분선 호환) 2종 지원.
+  - `originalPrice` 전달 시 정가 취소선 및 할인율(`computeDiscountRate`) 자동 계산, `onWishToggle`(하트 탄력 팝) · `onCartClick`(장바구니 담기) 콜백 전달 시에만 액션 버튼 선택적 노출, `soldOut` 일시품절 오버레이 지원.

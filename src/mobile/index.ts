@@ -6,4 +6,5 @@ export * from "./QuantityStepper";
 export * from "./Checkbox";
 export * from "./Radio";
 export * from "./BottomSheet";
+export * from "./ProductCard";
 export * from "./icons";

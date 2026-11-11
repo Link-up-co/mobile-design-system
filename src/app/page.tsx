@@ -19,6 +19,7 @@ import {
 } from "../mobile";
 import { BRAND_PRESETS, buildListReturnHref, type BrandPreset } from "../tokens/index.ts";
 import { BottomSheetShowcase } from "./BottomSheetShowcase";
+import { ProductCardShowcase } from "./ProductCardShowcase";
 
 const STORE_REGIONS = [
   ["서울 강남구", ["강남본점", "역삼점", "선릉점", "삼성코엑스점", "신사가로수길점", "압구정점", "청담점", "대치점", "도곡점", "양재점"]],
@@ -284,6 +285,11 @@ export default async function MobileGalleryPage({
       <section className="space-y-3">
         <Text variant="section">BottomSheet (디밍 + 슬라이드업 · 4가지 조합)</Text>
         <BottomSheetShowcase />
+      </section>
+
+      <section className="space-y-3">
+        <Text variant="section">ProductCard (1/2 그리드 · 가로 전체 리스트)</Text>
+        <ProductCardShowcase />
       </section>
 
       <section className="space-y-2.5">

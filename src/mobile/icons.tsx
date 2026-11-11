@@ -89,3 +89,20 @@ export function CalendarIcon({ className }: P) {
     </svg>
   );
 }
+
+export function HeartIcon({ filled = false, className }: { filled?: boolean; className?: string }) {
+  return (
+    <svg
+      aria-hidden="true"
+      viewBox="0 0 20 20"
+      className={clsx("size-4 shrink-0", className)}
+      fill={filled ? "currentColor" : "none"}
+      stroke="currentColor"
+      strokeWidth={1.75}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <path d="M10 16.6s-6-3.9-6-8.3A3.5 3.5 0 0 1 10 5.9a3.5 3.5 0 0 1 6 2.4c0 4.4-6 8.3-6 8.3Z" />
+    </svg>
+  );
+}
