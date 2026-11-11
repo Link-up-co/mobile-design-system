@@ -10,7 +10,7 @@
     "./styles.css": "./src/styles/theme.css"
   },
   "scripts": {
-    "dev": "next dev -p 3420",
+    "dev": "next dev -H 0.0.0.0 -p 3420",
     "build": "next build",
     "start": "next start -p 3420",
     "test": "tsx --test tests/*.test.*",
