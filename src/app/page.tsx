@@ -1,4 +1,4 @@
-import { Button, CartIcon, IconButton, SearchIcon, Text } from "../mobile";
+import { Button, CartIcon, Field, IconButton, Input, SearchIcon, Text } from "../mobile";
 import { BRAND_PRESETS, buildListReturnHref, type BrandPreset } from "../tokens/index.ts";
 
 const SWATCHES: readonly { name: string; varName: string }[] = [
@@ -120,6 +120,18 @@ export default async function MobileGalleryPage({
               <IconButton aria-label="장바구니" badge={3} icon={<CartIcon />} />
             </div>
           </div>
+        </div>
+      </section>
+
+      <section className="space-y-3">
+        <Text variant="section">Input (연회색 채움 + 포커스 흰 배경·Primary 링)</Text>
+        <div className="space-y-3 rounded-card border border-line bg-surface p-4">
+          <Field label="픽업 주문자명" htmlFor="m-name" required help="매장 수령 시 본인 확인에 사용됩니다">
+            <Input id="m-name" placeholder="이름을 입력하세요" />
+          </Field>
+          <Field label="휴대폰 번호" htmlFor="m-phone" required error="올바른 휴대폰 번호를 입력해 주세요.">
+            <Input id="m-phone" type="tel" inputMode="numeric" defaultValue="010-123" invalid />
+          </Field>
         </div>
       </section>
 
