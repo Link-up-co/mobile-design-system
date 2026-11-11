@@ -1,9 +1,11 @@
 import {
+  AppHeader,
   BirthDateInput,
   Button,
   CartIcon,
   CheckboxGroup,
   Field,
+  HeartIcon,
   IconButton,
   Input,
   OtpInput,
@@ -73,6 +75,36 @@ export default async function MobileGalleryPage({
         <h1 className="text-lg font-bold tracking-tight text-ink">Link-Up Mobile UI</h1>
         <p className="text-xs text-ink-muted">갤럭시 S25 · 삼성 인터넷 기준 · Pretendard 15px</p>
       </header>
+
+      <section className="space-y-3">
+        <Text variant="section">AppHeader (뒤로가기 · 좌측 타이틀 말줄임 · 우측 버튼 1~2개)</Text>
+        <div className="-mx-5 space-y-3 bg-canvas py-3">
+          <AppHeader
+            sticky={false}
+            title="주류 스마트오더"
+            actions={
+              <>
+                <IconButton aria-label="검색" icon={<SearchIcon />} />
+                <IconButton aria-label="장바구니" icon={<CartIcon />} badge={3} />
+              </>
+            }
+          />
+          <AppHeader
+            sticky={false}
+            title="산토리 히비키 재패니즈 하모니 700ml 전용잔 한정 패키지 기획전"
+            actions={<IconButton aria-label="장바구니" icon={<CartIcon />} />}
+          />
+          <AppHeader
+            sticky={false}
+            actions={
+              <>
+                <IconButton aria-label="관심 상품" icon={<HeartIcon />} />
+                <IconButton aria-label="장바구니" icon={<CartIcon />} badge={1} />
+              </>
+            }
+          />
+        </div>
+      </section>
 
       <section className="space-y-2.5">
         <h2 className="text-sm font-semibold text-ink">브랜드 포인트 프리셋 (서비스별 전환)</h2>

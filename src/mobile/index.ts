@@ -7,4 +7,5 @@ export * from "./Checkbox";
 export * from "./Radio";
 export * from "./BottomSheet";
 export * from "./ProductCard";
+export * from "./AppHeader";
 export * from "./icons";

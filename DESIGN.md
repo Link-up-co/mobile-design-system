@@ -39,3 +39,5 @@
 - Stage 9 ProductCard (2026-11-11):
   - `<ProductCard>`: `variant="grid"`(1/2 폭 2열 정방형 썸네일 세로형) 및 `variant="list"`(96×96 썸네일 + 우측 정보 풀폭 가로 리스트형, 1px 구분선 호환) 2종 지원.
   - `originalPrice` 전달 시 정가 취소선 및 할인율(`computeDiscountRate`) 자동 계산, `onWishToggle`(하트 탄력 팝) · `onCartClick`(장바구니 담기) 콜백 전달 시에만 액션 버튼 선택적 노출, `soldOut` 일시품절 오버레이 지원.
+- Stage 10 AppHeader (2026-11-11):
+  - `<AppHeader>`: 높이 `52px`(`h-13`) + 상단 `safe-area-inset-top`, 좌측 뒤로가기(`IconButton` + `BackIcon`, 기본 `history.back()` 폴백) 바로 옆 좌측 정렬 타이틀(`min-w-0 flex-1 truncate`로 길어지면 `...` 말줄임) + 우측 `actions` 슬롯(기능버튼 1~2개 `shrink-0` 고정).
