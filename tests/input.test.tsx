@@ -36,7 +36,7 @@ test("Field renders label, required mark, and error or help text", () => {
   assert.match(errHtml, /<p role="alert"[^>]*text-danger">주문자명을 입력해 주세요\.<\/p>/);
 });
 
-test("Textarea places maxLength counter inside bottom-left and hides scrollbar (subtle-scrollbar)", () => {
+test("Textarea places maxLength counter inside bottom-right and hides scrollbar (subtle-scrollbar)", () => {
   assert.deepEqual(computeTextareaLayout(44, 140), { height: 44, overflowY: "hidden" });
   assert.deepEqual(computeTextareaLayout(92, 140), { height: 92, overflowY: "hidden" });
   assert.deepEqual(computeTextareaLayout(180, 140), { height: 140, overflowY: "auto" });
@@ -47,8 +47,8 @@ test("Textarea places maxLength counter inside bottom-left and hides scrollbar (
   assert.match(html, /<textarea[^>]*rows="1"[^>]*maxLength="100"/);
   assert.match(html, /resize-none/);
   assert.match(html, /subtle-scrollbar/);
-  // 내부 좌측 하단 카운터 확인
-  assert.match(html, /class="[^"]*px-3\.5 pb-2 text-left text-caption[^"]*">9 \/ 100<\/div>/);
+  // 내부 우측 하단 카운터 확인
+  assert.match(html, /class="[^"]*px-3\.5 pb-2 text-right text-caption[^"]*">9 \/ 100<\/div>/);
 });
 
 test("PasswordInput renders type=password with visibility toggle button", () => {

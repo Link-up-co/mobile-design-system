@@ -419,7 +419,7 @@ export function Textarea({
       <div
         aria-hidden="true"
         onClick={() => ref.current?.focus()}
-        className="select-none px-3.5 pb-2 text-left text-caption tabular-nums text-ink-muted"
+        className="select-none px-3.5 pb-2 text-right text-caption tabular-nums text-ink-muted"
       >
         {current.length} / {maxLength}
       </div>
