@@ -1,5 +1,9 @@
 @import "tailwindcss";
 
+@theme inline {
+  --font-sans: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+}
+
 :root {
   --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
   --mds-motion-press: 90ms;

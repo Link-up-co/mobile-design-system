@@ -5,3 +5,4 @@
 
 ## Mobile Decision Log
 - Bootstrap (2026-11-06): `/Users/leeyoonmin/Documents/hermes/mobile-design-system` 독립 저장소 생성, Next.js 16 + React 19 + Tailwind CSS v4, 포트 `:3420`.
+- Stage 1 Font (2026-11-06): `Pretendard Variable` CDN, 모바일 기본 본문 크기 `15px` (`leading-[1.5]`), `viewport-fit=cover`.
