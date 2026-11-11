@@ -1,4 +1,15 @@
-import { Button, CartIcon, Field, IconButton, Input, SearchIcon, Text } from "../mobile";
+import {
+  Button,
+  CartIcon,
+  Field,
+  IconButton,
+  Input,
+  QuantityStepper,
+  SearchBar,
+  SearchIcon,
+  Text,
+  Textarea,
+} from "../mobile";
 import { BRAND_PRESETS, buildListReturnHref, type BrandPreset } from "../tokens/index.ts";
 
 const SWATCHES: readonly { name: string; varName: string }[] = [
@@ -131,6 +142,24 @@ export default async function MobileGalleryPage({
           </Field>
           <Field label="휴대폰 번호" htmlFor="m-phone" required error="올바른 휴대폰 번호를 입력해 주세요.">
             <Input id="m-phone" type="tel" inputMode="numeric" defaultValue="010-123" invalid />
+          </Field>
+          <Field label="주류·매장 검색 (인풋 + 버튼 결합)" htmlFor="m-search">
+            <SearchBar id="m-search" name="q" defaultValue="산토리 가쿠빈" placeholder="주류·매장 검색" buttonLabel="검색" />
+          </Field>
+          <Field label="주문 수량 (Stepper)" htmlFor="m-qty">
+            <div className="flex items-center justify-between">
+              <span className="text-body-sm text-ink-secondary">1인 최대 10병 구매 가능</span>
+              <QuantityStepper id="m-qty" name="qty" defaultValue={2} min={1} max={10} />
+            </div>
+          </Field>
+          <Field label="픽업 요청사항 (Textarea)" htmlFor="m-memo">
+            <Textarea
+              id="m-memo"
+              name="memo"
+              defaultValue="쇼핑백 함께 준비 부탁드립니다."
+              maxLength={100}
+              placeholder="매장에 전달할 요청사항을 입력하세요"
+            />
           </Field>
         </div>
       </section>

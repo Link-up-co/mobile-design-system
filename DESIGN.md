@@ -13,3 +13,7 @@
 - Stage 3 Typography (2026-11-06): 시원한 대비 스케일 — `hero` 24px(700) · `title` 19px(700) · `section` 16px(600) · `body` 15px(400) · `body-sm` 13px(400) · `caption` 12px(500) · `price` 22px(800, `tabular-nums`). `<Text>` 컴포넌트 제공.
 - Stage 4 Button (2026-11-06): 터치 표준 높이 `sm` 36px · `md` 44px(기본) · `lg` 52px(하단 고정 CTA, `fullWidth`). 변형: `primary`(브랜드 채움) · `soft`(`primary-soft` 채움 + `primary` 글자) · `secondary`(흰 바탕 + 1px `line`) · `danger` · `ghost`. `IconButton`(44×44px, `badge` 카운트 지원), 로딩 스피너 오버레이(폭 유지), `pressable` 0.97 축소 피드백.
 - Stage 5 Input (2026-11-06): 연회색 채움형(`bg-canvas/70`, 44px `h-11`, `rounded-control` 8px) + 포커스 시 흰 배경(`bg-surface`) + `border-primary` + `ring-2 ring-primary/15`. `<Field>` 라벨·필수(`*`)·도움말·에러(`role="alert"`) 제공. 이후 컴포넌트는 사용자 요청 시 하나씩 추가.
+- Stage 5-2 Textarea, QuantityStepper, SearchBar (2026-11-06):
+  - `<Textarea>`: 연회색 채움(`bg-canvas/70`) + 포커스 시 흰 배경·Primary 링, `maxLength` 지정 시 우측 하단 실시간 글자수 카운터(`현재 / 최대`).
+  - `<QuantityStepper>`: 모바일 수량 조절기(`−` / 숫자 / `+`), `sm` 36px · `md` 44px 정사각형 터치 버튼, `min`/`max` 경계 자동 비활성화.
+  - `<SearchBar>`: 인풋 + 액션 버튼 결합형(좌측 돋보기 아이콘, 값 입력 시 `×` 지우기 버튼, 우측 `Button` 결합).
