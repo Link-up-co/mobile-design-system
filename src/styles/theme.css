@@ -215,18 +215,26 @@
 @keyframes mds-backdrop-in {
   from {
     opacity: 0;
+    -webkit-backdrop-filter: blur(0px);
+    backdrop-filter: blur(0px);
   }
   to {
     opacity: 1;
+    -webkit-backdrop-filter: blur(3px);
+    backdrop-filter: blur(3px);
   }
 }
 
 @keyframes mds-backdrop-out {
   from {
     opacity: 1;
+    -webkit-backdrop-filter: blur(3px);
+    backdrop-filter: blur(3px);
   }
   to {
     opacity: 0;
+    -webkit-backdrop-filter: blur(0px);
+    backdrop-filter: blur(0px);
   }
 }
 
@@ -250,13 +258,13 @@
 
 @keyframes mds-heart-pop {
   0% {
-    transform: scale(0.6) rotate(-6deg);
+    transform: scale(0.55) rotate(-8deg);
   }
-  38% {
-    transform: scale(1.26) rotate(4deg);
+  36% {
+    transform: scale(1.36) rotate(5deg);
   }
-  70% {
-    transform: scale(0.95) rotate(-1.5deg);
+  68% {
+    transform: scale(0.94) rotate(-2deg);
   }
   100% {
     transform: scale(1) rotate(0deg);
@@ -268,7 +276,7 @@
     transform: scale(1);
   }
   45% {
-    transform: scale(0.82);
+    transform: scale(0.8);
   }
   100% {
     transform: scale(1);
@@ -277,26 +285,26 @@
 
 @keyframes mds-heart-ring {
   0% {
-    transform: scale(0.45);
-    opacity: 0.75;
+    transform: scale(0.5);
+    opacity: 0.85;
   }
   100% {
-    transform: scale(2.05);
+    transform: scale(2.9);
     opacity: 0;
   }
 }
 
 @keyframes mds-heart-spark {
   0% {
-    transform: translateY(-4px) scale(0.3);
+    transform: translateY(-5px) scale(0.35);
     opacity: 0;
   }
-  30% {
-    transform: translateY(-11px) scale(1);
-    opacity: 0.95;
+  28% {
+    transform: translateY(-16px) scale(1.1);
+    opacity: 1;
   }
   100% {
-    transform: translateY(-17px) scale(0);
+    transform: translateY(-28px) scale(0);
     opacity: 0;
   }
 }
@@ -342,5 +350,51 @@
   to {
     transform: translateY(20px) scale(0.98);
     opacity: 0;
+  }
+}
+
+@keyframes mds-liquid-pill-morph {
+  0% {
+    transform: scaleX(1) scaleY(1);
+  }
+  38% {
+    transform: scaleX(1.14) scaleY(0.91);
+  }
+  74% {
+    transform: scaleX(0.97) scaleY(1.03);
+  }
+  100% {
+    transform: scaleX(1) scaleY(1);
+  }
+}
+
+@keyframes mds-dialog-in {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 10px, 0) scale(0.94);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+}
+
+@keyframes mds-dialog-out {
+  from {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: translate3d(0, 6px, 0) scale(0.96);
+  }
+}
+
+@keyframes mds-shimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
   }
 }

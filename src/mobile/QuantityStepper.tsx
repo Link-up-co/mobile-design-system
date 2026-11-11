@@ -82,7 +82,7 @@ export function QuantityStepper({
         )}
       >
         <svg aria-hidden="true" viewBox="0 0 16 16" className="size-4">
-          <path d="M3.5 8h9" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" />
+          <path d="M3.5 8h9" stroke="currentColor" strokeWidth="1.15" strokeLinecap="round" />
         </svg>
       </button>
 
@@ -158,7 +158,7 @@ export function QuantityStepper({
         )}
       >
         <svg aria-hidden="true" viewBox="0 0 16 16" className="size-4">
-          <path d="M8 3.5v9M3.5 8h9" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" />
+          <path d="M8 3.5v9M3.5 8h9" stroke="currentColor" strokeWidth="1.15" strokeLinecap="round" />
         </svg>
       </button>
     </div>

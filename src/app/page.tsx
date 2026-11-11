@@ -4,24 +4,35 @@ import {
   Button,
   CartIcon,
   CheckboxGroup,
+  EmailInput,
   Field,
   HeartIcon,
   IconButton,
   Input,
   OtpInput,
   PasswordInput,
+  PhoneInput,
   QuantityStepper,
   RadioButtonGroup,
   RadioGroup,
   SearchBar,
   SearchIcon,
   Select,
+  Tag,
   Text,
   Textarea,
 } from "../mobile";
 import { BRAND_PRESETS, buildListReturnHref, type BrandPreset } from "../tokens/index.ts";
+import { BannerSliderShowcase } from "./BannerSliderShowcase";
+import { BottomActionShowcase } from "./BottomActionShowcase";
+import { BottomNavShowcase } from "./BottomNavShowcase";
 import { BottomSheetShowcase } from "./BottomSheetShowcase";
+import { CategoryRankingShowcase } from "./CategoryRankingShowcase";
+import { ExhibitionShowcase } from "./ExhibitionShowcase";
+import { ExtraComponentsShowcase } from "./ExtraComponentsShowcase";
 import { FeedbackShowcase } from "./FeedbackShowcase";
+import { LiquidGlassNavShowcase } from "./LiquidGlassNavShowcase";
+import { MediaUploadShowcase } from "./MediaUploadShowcase";
 import { ProductCardShowcase } from "./ProductCardShowcase";
 
 const STORE_REGIONS = [
@@ -105,6 +116,33 @@ export default async function MobileGalleryPage({
             }
           />
         </div>
+      </section>
+
+      <section className="space-y-3">
+        <Text variant="section">BottomNav (하단 메인 메뉴 · 4~5탭 · 배지 & Safe Area)</Text>
+        <BottomNavShowcase />
+      </section>
+
+      <section className="space-y-3">
+        <Text variant="section">LiquidGlassBottomNav (리퀴드 글래스 플로팅 바텀 메뉴)</Text>
+        <LiquidGlassNavShowcase />
+      </section>
+
+      <section className="space-y-3">
+        <Text variant="section">BannerSlider (메인배너 이미지 슬라이드 · 풀폭 & 인셋)</Text>
+        <BannerSliderShowcase />
+      </section>
+
+      <section className="space-y-3">
+        <Text variant="section">ExhibitionSection (홈 기획전 · 헤더 + 상품 카드 슬라이드)</Text>
+        <div className="border-y border-line py-5 -mx-5 px-5 bg-surface">
+          <ExhibitionShowcase />
+        </div>
+      </section>
+
+      <section className="space-y-3">
+        <Text variant="section">CategoryRanking (카테고리별 판매량 순위 · 탭 중앙정렬 & 좌우 슬라이드)</Text>
+        <CategoryRankingShowcase />
       </section>
 
       <section className="space-y-2.5">
@@ -196,13 +234,21 @@ export default async function MobileGalleryPage({
       </section>
 
       <section className="space-y-3">
+        <Text variant="section">FixedBottomButton (하단 고정 블록 버튼 · Safe Area 대응)</Text>
+        <BottomActionShowcase />
+      </section>
+
+      <section className="space-y-3">
         <Text variant="section">Input (연회색 채움 + 포커스 흰 배경·Primary 링)</Text>
         <div className="space-y-3 rounded-card border border-line bg-surface p-4">
           <Field label="픽업 주문자명" htmlFor="m-name" required help="매장 수령 시 본인 확인에 사용됩니다">
             <Input id="m-name" placeholder="이름을 입력하세요" />
           </Field>
-          <Field label="휴대폰 번호" htmlFor="m-phone" required error="올바른 휴대폰 번호를 입력해 주세요.">
-            <Input id="m-phone" type="tel" inputMode="numeric" defaultValue="010-123" invalid />
+          <Field label="휴대폰 번호 (자동 하이픈 포맷 · PhoneInput)" htmlFor="m-phone" required help="숫자만 입력해도 010-1234-5678 형식으로 자동 변환됩니다">
+            <PhoneInput id="m-phone" name="phone" defaultValue="01098765432" />
+          </Field>
+          <Field label="이메일 (도메인 실시간 자동완성)" htmlFor="m-email" required help="아이디만 입력해도 자주 쓰는 도메인을 바로 선택할 수 있습니다">
+            <EmailInput id="m-email" name="email" defaultValue="linkup.order" />
           </Field>
           <Field label="비밀번호 (보기/숨기기 토글)" htmlFor="m-pw" required>
             <PasswordInput id="m-pw" name="password" defaultValue="linkup2026!" placeholder="비밀번호를 입력하세요" />
@@ -321,6 +367,20 @@ export default async function MobileGalleryPage({
       </section>
 
       <section className="space-y-3">
+        <Text variant="section">Tag (베스트 · 인기 · 행사 · 추천 상품 라벨)</Text>
+        <div className="flex flex-wrap items-center gap-1.5 rounded-card border border-line bg-surface p-4">
+          <Tag>베스트</Tag>
+          <Tag>인기</Tag>
+          <Tag>행사</Tag>
+          <Tag>추천</Tag>
+          <Tag>신상</Tag>
+          <Tag>오늘픽업</Tag>
+          <Tag variant="neutral">전용잔패키지</Tag>
+          <Tag color="#7C3AED">시그니처</Tag>
+        </div>
+      </section>
+
+      <section className="space-y-3">
         <Text variant="section">ProductCard (1/2 그리드 · 가로 전체 리스트)</Text>
         <ProductCardShowcase />
       </section>
@@ -329,6 +389,10 @@ export default async function MobileGalleryPage({
         <Text variant="section">Toast & Snackbar (상단 토스트 · 하단 액션 스낵바)</Text>
         <FeedbackShowcase />
       </section>
+
+      <MediaUploadShowcase />
+
+      <ExtraComponentsShowcase />
 
       <section className="space-y-2.5">
         <h2 className="text-sm font-semibold text-ink">모서리 둥글기 (Radius)</h2>

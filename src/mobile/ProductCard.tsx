@@ -3,6 +3,7 @@
 import { useState, type ReactNode } from "react";
 import clsx from "clsx";
 import { formatCurrency } from "../tokens";
+import { TagList, type ProductTagInput } from "./Tag";
 import { CartIcon, HeartIcon } from "./icons";
 
 export function computeDiscountRate(price: number, originalPrice?: number): number {
@@ -12,11 +13,13 @@ export function computeDiscountRate(price: number, originalPrice?: number): numb
 
 const SPARK_ANGLES = [
   { deg: 0, color: "#EF4444" },
-  { deg: 60, color: "#FB7185" },
-  { deg: 120, color: "#F59E0B" },
+  { deg: 45, color: "#FB7185" },
+  { deg: 90, color: "#F59E0B" },
+  { deg: 135, color: "#F43F5E" },
   { deg: 180, color: "#EF4444" },
-  { deg: 240, color: "#F43F5E" },
-  { deg: 300, color: "#FB923C" },
+  { deg: 225, color: "#FB923C" },
+  { deg: 270, color: "#FB7185" },
+  { deg: 315, color: "#F59E0B" },
 ] as const;
 
 function WishToggleButton({
@@ -42,17 +45,17 @@ function WishToggleButton({
         className
       )}
     >
-      {/* 찜 ON 시 퍼져 나가는 원형 쇼크웨이브 링 + 6방향 스파클 폭죽 */}
+      {/* 찜 ON 시 넓게 퍼져 나가는 원형 쇼크웨이브 링 + 8방향 스파클 폭죽 */}
       {burstSeq > 0 && wished && (
         <span
           key={`fx-${burstSeq}`}
           aria-hidden="true"
           data-wish-burst=""
-          className="pointer-events-none absolute inset-0 flex items-center justify-center motion-reduce:hidden"
+          className="pointer-events-none absolute inset-0 z-20 flex items-center justify-center overflow-visible motion-reduce:hidden"
         >
           <span
-            style={{ animation: "mds-heart-ring 620ms cubic-bezier(0.25, 0.8, 0.25, 1) forwards" }}
-            className="absolute size-5 rounded-full border-[1.5px] border-danger/60"
+            style={{ animation: "mds-heart-ring 700ms cubic-bezier(0.22, 1, 0.36, 1) forwards" }}
+            className="absolute size-6 rounded-full border-[1.5px] border-danger/65"
           />
           {SPARK_ANGLES.map((s) => (
             <span
@@ -63,9 +66,9 @@ function WishToggleButton({
               <span
                 style={{
                   backgroundColor: s.color,
-                  animation: "mds-heart-spark 660ms cubic-bezier(0.25, 0.8, 0.25, 1) forwards",
+                  animation: "mds-heart-spark 720ms cubic-bezier(0.22, 1, 0.36, 1) forwards",
                 }}
-                className="size-1 rounded-full"
+                className="size-1.5 rounded-full"
               />
             </span>
           ))}
@@ -100,6 +103,8 @@ export type ProductCardProps = {
   price: number;
   /** 정가(할인 전 가격). `price`보다 크면 취소선과 할인율(%) 자동 표시 */
   originalPrice?: number;
+  /** 상품 강조 라벨 태그 목록 (`"베스트"`, `"인기"`, `"행사"`, `"추천"` 등 문자열 또는 `{ label, variant, color }`) */
+  tags?: readonly ProductTagInput[];
   imageSrc?: string;
   imageAlt?: string;
   /** 커스텀 썸네일 요소(`imageSrc` 대신 SVG·일러스트 렌더링 시 사용) */
@@ -126,6 +131,7 @@ export function ProductCard({
   subtitle,
   price,
   originalPrice,
+  tags,
   imageSrc,
   imageAlt,
   thumbnail,
@@ -237,13 +243,16 @@ export function ProductCard({
                 wished={isWished}
                 burstSeq={burstSeq}
                 onToggle={toggleWish}
-                className="z-10 -mt-1 -mr-1.5 size-9 shrink-0 rounded-full"
+                className="z-20 -mt-2 -mr-2.5 size-11 shrink-0 rounded-full"
               />
             )}
           </div>
 
           <div className="mt-2 flex items-end justify-between gap-2">
-            {priceBlock}
+            <div className="min-w-0 space-y-1.5">
+              {priceBlock}
+              <TagList tags={tags} />
+            </div>
             {onCartClick && (
               <button
                 type="button"
@@ -285,9 +294,9 @@ export function ProductCard({
               burstSeq={burstSeq}
               onToggle={toggleWish}
               className={clsx(
-                "h-full hover:bg-surface-subtle active:bg-canvas",
+                "z-20 h-full hover:bg-surface-subtle active:bg-canvas",
                 onCartClick
-                  ? "w-10 shrink-0 rounded-l-[7px] border-r border-line"
+                  ? "w-12 shrink-0 rounded-l-[7px] border-r border-line"
                   : "w-full rounded-[7px]"
               )}
             />
@@ -313,6 +322,7 @@ export function ProductCard({
         {subtitle && <p className="truncate text-caption text-ink-muted">{subtitle}</p>}
         {titleNode}
         <div className="mt-0.5">{priceBlock}</div>
+        <TagList tags={tags} className="mt-0.5" />
       </div>
     </article>
   );

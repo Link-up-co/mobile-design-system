@@ -77,7 +77,7 @@ export function BottomSheet({
 
   return (
     <div className="fixed inset-0 z-50 flex items-end justify-center">
-      {/* 서서히 어두워지는 디밍 배경 */}
+      {/* 서서히 어두워지며 은은하게 블러가 걸리는 디밍 배경 */}
       <div
         aria-hidden="true"
         data-sheet-backdrop=""
@@ -87,7 +87,7 @@ export function BottomSheet({
             ? `mds-backdrop-out ${EXIT_MS}ms cubic-bezier(0.4, 0, 0.2, 1) forwards`
             : "mds-backdrop-in 480ms cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards",
         }}
-        className="absolute inset-0 bg-black/50 motion-reduce:animate-none!"
+        className="absolute inset-0 bg-black/45 backdrop-blur-[3px] motion-reduce:animate-none!"
       />
 
       {/* 아래에서 천천히 올라오는 컨텐츠 패널 */}

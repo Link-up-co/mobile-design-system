@@ -49,6 +49,214 @@ export function Input({ size = "md", invalid = false, className, ...rest }: Inpu
   );
 }
 
+export const DEFAULT_EMAIL_DOMAINS = [
+  "naver.com",
+  "gmail.com",
+  "kakao.com",
+  "hanmail.net",
+  "daum.net",
+  "nate.com",
+  "icloud.com",
+] as const;
+
+export function isValidEmail(value: string): boolean {
+  const trimmed = value.trim();
+  if (!trimmed || /\s/.test(trimmed)) return false;
+  return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(trimmed);
+}
+
+export function buildEmailSuggestions(
+  rawValue: string,
+  domains: readonly string[] = DEFAULT_EMAIL_DOMAINS
+): { email: string; localPart: string; domain: string }[] {
+  const clean = rawValue.replace(/\s+/g, "");
+  if (!clean || domains.length === 0) return [];
+
+  const atIndex = clean.indexOf("@");
+  // '@'가 2개 이상이면 추천 생략
+  if (atIndex !== -1 && clean.indexOf("@", atIndex + 1) !== -1) return [];
+
+  const localPart = atIndex === -1 ? clean : clean.slice(0, atIndex);
+  if (!localPart) return [];
+
+  const typedDomain = atIndex === -1 ? "" : clean.slice(atIndex + 1).toLowerCase();
+
+  return domains
+    .filter((d) => d.toLowerCase().startsWith(typedDomain))
+    .map((domain) => ({
+      email: `${localPart}@${domain}`,
+      localPart,
+      domain,
+    }))
+    .filter((item) => item.email.toLowerCase() !== clean.toLowerCase());
+}
+
+export type EmailInputProps = Omit<
+  InputHTMLAttributes<HTMLInputElement>,
+  "size" | "type" | "value" | "defaultValue" | "onChange"
+> & {
+  size?: ControlSize;
+  invalid?: boolean;
+  value?: string;
+  defaultValue?: string;
+  /** 자동완성 도메인 목록 (`[]` 전달 시 도메인 추천 비활성화) */
+  domains?: readonly string[];
+  onChange?: (value: string) => void;
+};
+
+/**
+ * 모바일 이메일 입력창 (`@도메인` 실시간 자동완성 추천 + 원터치 지우기).
+ * - 아이디만 입력해도 주요 메일 도메인을 하단 리스트로 제안해 영문 타이핑 부담 최소화
+ */
+export function EmailInput({
+  id,
+  name,
+  size = "md",
+  invalid = false,
+  value: controlled,
+  defaultValue = "",
+  domains = DEFAULT_EMAIL_DOMAINS,
+  placeholder = "example@email.com",
+  disabled,
+  onChange,
+  onFocus,
+  onBlur,
+  onKeyDown,
+  className,
+  ...rest
+}: EmailInputProps) {
+  const [inner, setInner] = useState(() => defaultValue.replace(/\s+/g, ""));
+  const [focused, setFocused] = useState(false);
+  const [activeIdx, setActiveIdx] = useState(0);
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  const val = controlled !== undefined ? controlled.replace(/\s+/g, "") : inner;
+  const suggestions = focused && !disabled ? buildEmailSuggestions(val, domains) : [];
+  const safeActiveIdx = suggestions.length > 0 ? Math.min(activeIdx, suggestions.length - 1) : 0;
+
+  function commitValue(nextRaw: string) {
+    const clean = nextRaw.replace(/\s+/g, "");
+    if (controlled === undefined) setInner(clean);
+    setActiveIdx(0);
+    onChange?.(clean);
+  }
+
+  function applySuggestion(email: string) {
+    commitValue(email);
+    setFocused(false);
+    inputRef.current?.focus();
+  }
+
+  function handleKeyDown(e: KeyboardEvent<HTMLInputElement>) {
+    if (suggestions.length > 0) {
+      if (e.key === "ArrowDown") {
+        e.preventDefault();
+        setActiveIdx((i) => (i + 1) % suggestions.length);
+        return;
+      }
+      if (e.key === "ArrowUp") {
+        e.preventDefault();
+        setActiveIdx((i) => (i - 1 + suggestions.length) % suggestions.length);
+        return;
+      }
+      if (e.key === "Enter") {
+        e.preventDefault();
+        applySuggestion(suggestions[safeActiveIdx].email);
+        return;
+      }
+      if (e.key === "Escape") {
+        setFocused(false);
+        return;
+      }
+    }
+    onKeyDown?.(e);
+  }
+
+  return (
+    <div className="relative w-full">
+      <div className="relative flex w-full items-center">
+        <input
+          ref={inputRef}
+          id={id}
+          name={name}
+          type="email"
+          inputMode="email"
+          autoComplete="email"
+          autoCapitalize="none"
+          autoCorrect="off"
+          spellCheck={false}
+          disabled={disabled}
+          aria-invalid={invalid || undefined}
+          aria-autocomplete={domains.length > 0 ? "list" : undefined}
+          aria-expanded={domains.length > 0 ? suggestions.length > 0 : undefined}
+          value={val}
+          placeholder={placeholder}
+          onFocus={(e) => {
+            setFocused(true);
+            onFocus?.(e);
+          }}
+          onBlur={(e) => {
+            setFocused(false);
+            onBlur?.(e);
+          }}
+          onChange={(e) => {
+            setFocused(true);
+            commitValue(e.target.value);
+          }}
+          onKeyDown={handleKeyDown}
+          className={clsx(controlClass(size, invalid), val.length > 0 && !disabled && "pr-9", className)}
+          {...rest}
+        />
+
+        {val.length > 0 && !disabled && (
+          <button
+            type="button"
+            aria-label="이메일 지우기"
+            onPointerDown={(e) => e.preventDefault()}
+            onClick={() => {
+              commitValue("");
+              setFocused(true);
+              inputRef.current?.focus();
+            }}
+            className="pressable absolute right-2 inline-flex size-6 cursor-pointer items-center justify-center rounded-full bg-line/80 text-ink-secondary outline-transparent hover:bg-line-strong hover:text-ink focus-visible:outline-2 focus-visible:outline-primary"
+          >
+            <CloseIcon className="size-3.5" />
+          </button>
+        )}
+      </div>
+
+      {suggestions.length > 0 && (
+        <ul
+          role="listbox"
+          aria-label="이메일 도메인 자동완성"
+          className="subtle-scrollbar absolute top-full right-0 left-0 z-30 mt-1.5 max-h-52 divide-y divide-line overflow-y-auto rounded-card border border-line bg-surface py-1 shadow-md"
+        >
+          {suggestions.map((s, idx) => {
+            const active = idx === safeActiveIdx;
+            return (
+              <li key={s.domain} role="option" aria-selected={active}>
+                <button
+                  type="button"
+                  tabIndex={-1}
+                  onPointerDown={(e) => e.preventDefault()}
+                  onClick={() => applySuggestion(s.email)}
+                  className={clsx(
+                    "flex w-full cursor-pointer items-center px-3.5 py-2.5 text-left text-body-sm transition-colors",
+                    active ? "bg-primary-soft/65 text-ink" : "text-ink hover:bg-surface-subtle active:bg-canvas"
+                  )}
+                >
+                  <span className="truncate text-ink-secondary">{s.localPart}</span>
+                  <span className="shrink-0 font-semibold text-primary">@{s.domain}</span>
+                </button>
+              </li>
+            );
+          })}
+        </ul>
+      )}
+    </div>
+  );
+}
+
 export type PasswordInputProps = Omit<InputHTMLAttributes<HTMLInputElement>, "size" | "type"> & {
   size?: ControlSize;
   invalid?: boolean;
@@ -157,6 +365,108 @@ export function BirthDateInput({
         {...rest}
       />
       <CalendarIcon className="pointer-events-none absolute right-3.5 text-ink-muted" />
+    </div>
+  );
+}
+
+export function stripPhoneDigits(value: string): string {
+  return value.replace(/\D/g, "").slice(0, 11);
+}
+
+export function formatPhoneNumber(value: string): string {
+  const digits = stripPhoneDigits(value);
+  if (digits.startsWith("02")) {
+    const d = digits.slice(0, 10);
+    if (d.length <= 2) return d;
+    if (d.length <= 5) return `${d.slice(0, 2)}-${d.slice(2)}`;
+    if (d.length <= 9) return `${d.slice(0, 2)}-${d.slice(2, 5)}-${d.slice(5)}`;
+    return `${d.slice(0, 2)}-${d.slice(2, 6)}-${d.slice(6, 10)}`;
+  }
+  if (digits.length <= 3) return digits;
+  if (digits.length <= 7) return `${digits.slice(0, 3)}-${digits.slice(3)}`;
+  if (digits.length <= 10) {
+    return `${digits.slice(0, 3)}-${digits.slice(3, 6)}-${digits.slice(6)}`;
+  }
+  return `${digits.slice(0, 3)}-${digits.slice(3, 7)}-${digits.slice(7, 11)}`;
+}
+
+export type PhoneInputProps = Omit<
+  InputHTMLAttributes<HTMLInputElement>,
+  "size" | "type" | "value" | "defaultValue" | "onChange"
+> & {
+  size?: ControlSize;
+  invalid?: boolean;
+  value?: string;
+  defaultValue?: string;
+  clearable?: boolean;
+  /** 순수 숫자열("01012345678")과 하이픈 포맷("010-1234-5678")을 함께 전달 */
+  onChange?: (digits: string, formatted: string) => void;
+};
+
+/**
+ * 휴대폰·연락처 번호 입력창 (`010-1234-5678` / `02-1234-5678` 자동 하이픈 포맷 + 숫자 키패드).
+ * - `name`이 주어지면 hidden input으로 하이픈이 제거된 순수 숫자열을 폼에 전송
+ */
+export function PhoneInput({
+  name,
+  size = "md",
+  invalid = false,
+  value: controlled,
+  defaultValue = "",
+  placeholder = "010-0000-0000",
+  clearable = true,
+  disabled,
+  onChange,
+  className,
+  ...rest
+}: PhoneInputProps) {
+  const [inner, setInner] = useState(() => stripPhoneDigits(defaultValue));
+  const inputRef = useRef<HTMLInputElement | null>(null);
+  const digits = controlled !== undefined ? stripPhoneDigits(controlled) : inner;
+  const formatted = formatPhoneNumber(digits);
+  const showClear = clearable && !disabled && digits.length > 0;
+
+  function commit(raw: string) {
+    const nextDigits = stripPhoneDigits(raw);
+    if (controlled === undefined) setInner(nextDigits);
+    onChange?.(nextDigits, formatPhoneNumber(nextDigits));
+  }
+
+  return (
+    <div className="relative flex w-full items-center">
+      {name && <input type="hidden" name={name} value={digits} />}
+      <input
+        ref={inputRef}
+        type="tel"
+        inputMode="numeric"
+        autoComplete="tel"
+        maxLength={13}
+        disabled={disabled}
+        aria-invalid={invalid || undefined}
+        value={formatted}
+        placeholder={placeholder}
+        onChange={(e) => commit(e.target.value)}
+        className={clsx(
+          controlClass(size, invalid),
+          showClear && "pr-10",
+          "tabular-nums tracking-wide",
+          className
+        )}
+        {...rest}
+      />
+      {showClear && (
+        <button
+          type="button"
+          aria-label="연락처 지우기"
+          onClick={() => {
+            commit("");
+            inputRef.current?.focus();
+          }}
+          className="pressable absolute right-1.5 inline-flex size-8 cursor-pointer items-center justify-center rounded-control text-ink-muted outline-transparent hover:bg-surface-subtle hover:text-ink focus-visible:outline-2 focus-visible:outline-primary"
+        >
+          <CloseIcon className="size-4" />
+        </button>
+      )}
     </div>
   );
 }

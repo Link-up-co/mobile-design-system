@@ -33,6 +33,7 @@ test("BottomSheet supports with/without title, close button, and footer", () => 
   assert.match(full, /aria-label="닫기"/);
   assert.match(full, /선택 완료/);
   assert.match(full, /data-sheet-backdrop=""/);
+  assert.match(full, /backdrop-blur-\[3px\]/);
 
   // 2) 타이틀 O + 닫기버튼 X + 하단버튼 X
   const titleOnly = renderToStaticMarkup(

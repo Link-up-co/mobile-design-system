@@ -58,6 +58,7 @@ const SAMPLE_PRODUCTS = [
     subtitle: "블렌디드 위스키 · 700ml · 43%",
     price: 136000,
     originalPrice: 160000,
+    tags: ["베스트", "인기"],
     wished: true,
     soldOut: false,
     tone: "#FEF3C7",
@@ -70,6 +71,7 @@ const SAMPLE_PRODUCTS = [
     subtitle: "싱글몰트 스카치 · 700ml · 40%",
     price: 109000,
     originalPrice: 125000,
+    tags: ["추천", "행사"],
     wished: false,
     soldOut: false,
     tone: "#F4F4F5",
@@ -82,6 +84,7 @@ const SAMPLE_PRODUCTS = [
     subtitle: "싱글몰트 스카치 · 700ml · 40%",
     price: 148000,
     originalPrice: undefined,
+    tags: ["인기", "오늘픽업"],
     wished: false,
     soldOut: false,
     tone: "#FEE2E2",
@@ -94,6 +97,7 @@ const SAMPLE_PRODUCTS = [
     subtitle: "싱글몰트 재패니즈 · 700ml · 43%",
     price: 289000,
     originalPrice: 320000,
+    tags: ["한정", "베스트"],
     wished: false,
     soldOut: true,
     tone: "#E0E7FF",
@@ -132,6 +136,7 @@ export function ProductCardShowcase() {
               subtitle={p.subtitle}
               price={p.price}
               originalPrice={p.originalPrice}
+              tags={p.tags}
               soldOut={p.soldOut}
               defaultWished={p.wished}
               thumbnail={<BottleIllustration tone={p.tone} accent={p.accent} code={p.code} />}
@@ -155,6 +160,7 @@ export function ProductCardShowcase() {
               subtitle={p.subtitle}
               price={p.price}
               originalPrice={p.originalPrice}
+              tags={p.tags}
               soldOut={p.soldOut}
               defaultWished={p.wished}
               thumbnail={<BottleIllustration tone={p.tone} accent={p.accent} code={p.code} />}

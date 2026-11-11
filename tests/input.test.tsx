@@ -3,15 +3,18 @@ import assert from "node:assert/strict";
 import { renderToStaticMarkup } from "react-dom/server";
 import {
   BirthDateInput,
+  EmailInput,
   Field,
   Input,
   OtpInput,
   PasswordInput,
   SearchBar,
   Textarea,
+  buildEmailSuggestions,
   computeTextareaLayout,
   controlClass,
   formatBirthDate,
+  isValidEmail,
   stripBirthDigits,
 } from "../src/mobile/Input";
 import { QuantityStepper, clampQuantity } from "../src/mobile/QuantityStepper";
@@ -55,6 +58,32 @@ test("PasswordInput renders type=password with visibility toggle button", () => 
   const html = renderToStaticMarkup(<PasswordInput id="pw" name="password" placeholder="비밀번호 입력" />);
   assert.match(html, /<input[^>]*type="password"[^>]*id="pw"/);
   assert.match(html, /<button type="button"[^>]*aria-label="비밀번호 보기"/);
+});
+
+test("EmailInput builds domain suggestions, validates format, and renders email keyboard attributes + clear button", () => {
+  const s1 = buildEmailSuggestions("yoonmin");
+  assert.equal(s1[0]?.email, "yoonmin@naver.com");
+  assert.equal(s1[1]?.email, "yoonmin@gmail.com");
+
+  const s2 = buildEmailSuggestions("yoonmin@ka");
+  assert.deepEqual(
+    s2.map((s) => s.email),
+    ["yoonmin@kakao.com"]
+  );
+
+  // 완성된 이메일과 동일하면 불필요한 추천을 숨김
+  assert.deepEqual(buildEmailSuggestions("yoonmin@naver.com"), []);
+
+  assert.equal(isValidEmail("user@link-up.kr"), true);
+  assert.equal(isValidEmail("user@invalid"), false);
+  assert.equal(isValidEmail("bad email@naver.com"), false);
+
+  const html = renderToStaticMarkup(
+    <EmailInput id="email" name="email" defaultValue="yoonmin@link-up.kr" />
+  );
+  assert.match(html, /<input[^>]*type="email"[^>]*inputMode="email"[^>]*autoCapitalize="none"/);
+  assert.match(html, /value="yoonmin@link-up\.kr"/);
+  assert.match(html, /aria-label="이메일 지우기"/);
 });
 
 test("BirthDateInput formats YYYY.MM.DD and posts clean 8-digit value", () => {
