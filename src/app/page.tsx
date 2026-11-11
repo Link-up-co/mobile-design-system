@@ -20,6 +20,25 @@ import {
 import { BRAND_PRESETS, buildListReturnHref, type BrandPreset } from "../tokens/index.ts";
 import { BottomSheetShowcase } from "./BottomSheetShowcase";
 
+const STORE_REGIONS = [
+  ["서울 강남구", ["강남본점", "역삼점", "선릉점", "삼성코엑스점", "신사가로수길점", "압구정점", "청담점", "대치점", "도곡점", "양재점"]],
+  ["서울 성동·마포·용산", ["성수점", "서울숲점", "왕십리점", "연남·홍대점", "합정점", "망원점", "상수점", "한남점", "이태원점", "용산아이파크점"]],
+  ["서울 영등포·송파·종로", ["여의도점", "더현대여의도점", "문래점", "잠실롯데점", "석촌호수점", "방이점", "광화문점", "익선동점", "을지로점", "명동점"]],
+  ["경기 남부·분당·수원", ["판교점", "정자점", "서현점", "광교중앙점", "수원인계점", "수원행궁점", "동탄호수점", "기흥점", "죽전점", "평택고덕점"]],
+  ["경기 북부·인천", ["일산킨텍스점", "일산라페스타점", "파주운정점", "김포구래점", "송도센트럴점", "부평점", "구월점", "청라점", "하남미사점", "다산점"]],
+  ["부산·경남", ["부산서면점", "부산센텀점", "해운대점", "광안리점", "전포카페거리점", "남포동점", "동래점", "창원상남점", "김해내외점", "진주혁신점"]],
+  ["대구·경북·울산", ["대구동성로점", "대구수성못점", "범어점", "포항영일대점", "경주황리단길점", "구미인동점", "울산삼산점", "울산성남점", "안동옥동점", "김천혁신점"]],
+  ["대전·충청·강원·제주", ["대전둔산점", "대전봉명점", "세종나성점", "청주성안길점", "천안불당점", "강릉교동점", "속초해변점", "춘천명동점", "전주객리단길점", "제주노형점"]],
+] as const;
+
+const ALL_PICKUP_STORES = STORE_REGIONS.flatMap(([region, branches]) =>
+  branches.map((branch, idx) => ({
+    value: `${region}-${idx}`,
+    label: `시크릿오더 ${branch}`,
+    description: `${region} · 스마트오더 당일 픽업`,
+  }))
+);
+
 const SWATCHES: readonly { name: string; varName: string }[] = [
   { name: "primary", varName: "--mds-primary" },
   { name: "primary-hover", varName: "--mds-primary-hover" },
@@ -175,25 +194,14 @@ export default async function MobileGalleryPage({
               ]}
             />
           </Field>
-          <Field label="픽업 매장 선택 (옵션 다수 · 검색형 Select)" htmlFor="m-pickup-store" required>
+          <Field label="픽업 매장 선택 (80개 매장 가상 스크롤 · 초성 검색)" htmlFor="m-pickup-store" required help="예: 'ㅅㅅ'(성수), 'ㅂㅅㅅㅁ'(부산서면), '강ㄴ'(강남) 입력">
             <Select
               id="m-pickup-store"
               name="pickupStore"
-              title="전국 픽업 매장 선택"
+              title="전국 픽업 매장 선택 (80개)"
               placeholder="픽업할 매장을 선택하세요"
-              searchPlaceholder="매장명 또는 지역 검색 (예: 성수, 부산)"
-              options={[
-                { value: "gangnam", label: "시크릿오더 강남본점", description: "서울 강남구 · 강남역 11번 출구" },
-                { value: "seongsu", label: "시크릿오더 성수점", description: "서울 성동구 · 성수역 3번 출구" },
-                { value: "yeouido", label: "시크릿오더 여의도점", description: "서울 영등포구 · 더현대 맞은편" },
-                { value: "hongdae", label: "시크릿오더 연남·홍대점", description: "서울 마포구 · 홍대입구역 3번 출구" },
-                { value: "hannam", label: "시크릿오더 한남점", description: "서울 용산구 · 한강진역 2번 출구" },
-                { value: "pangyo", label: "시크릿오더 판교점", description: "경기 성남시 · 판교역 1번 출구" },
-                { value: "gwanggyo", label: "시크릿오더 광교점", description: "경기 수원시 · 광교중앙역" },
-                { value: "seomyeon", label: "시크릿오더 부산 서면점", description: "부산 부산진구 · 서면역 2번 출구" },
-                { value: "centum", label: "시크릿오더 부산 센텀점", description: "부산 해운대구 · 센텀시티역" },
-                { value: "dongseong", label: "시크릿오더 대구 동성로점", description: "대구 중구 · 중앙로역" },
-              ]}
+              searchPlaceholder="매장명 또는 초성 검색 (예: ㅅㅅ, ㄱㄴ, 부산)"
+              options={ALL_PICKUP_STORES}
             />
           </Field>
           <Field label="주류·매장 검색 (인풋 + 버튼 결합)" htmlFor="m-search">

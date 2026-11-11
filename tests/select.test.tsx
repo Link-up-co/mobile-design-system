@@ -1,7 +1,13 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import { renderToStaticMarkup } from "react-dom/server";
-import { Select, filterSelectOptions, type SelectOption } from "../src/mobile/Select";
+import {
+  Select,
+  computeVirtualRange,
+  filterSelectOptions,
+  matchesKoreanQuery,
+  type SelectOption,
+} from "../src/mobile/Select";
 
 const STORES: SelectOption[] = [
   { value: "gangnam", label: "시크릿오더 강남본점", description: "강남역 11번 출구" },
@@ -42,15 +48,52 @@ test("Select opens BottomSheet with option list and renders search input when se
   assert.match(searchableSheet, /type="search"/);
 });
 
-test("filterSelectOptions filters by label and description case-insensitively", () => {
+test("filterSelectOptions supports plain text, Korean choseong (초성), and mixed composition queries", () => {
   assert.equal(filterSelectOptions(STORES, "").length, 3);
   assert.deepEqual(
     filterSelectOptions(STORES, "성수").map((o) => o.value),
     ["seongsu"]
   );
+  // 초성 검색: ㅅㅅ -> 성수, ㄱㄴㅂㅈ -> 강남본점, ㅂㅅ -> description의 부산
   assert.deepEqual(
-    filterSelectOptions(STORES, "부산").map((o) => o.value),
+    filterSelectOptions(STORES, "ㅅㅅㅈ").map((o) => o.value),
+    ["seongsu"]
+  );
+  assert.deepEqual(
+    filterSelectOptions(STORES, "ㄱㄴㅂㅈ").map((o) => o.value),
+    ["gangnam"]
+  );
+  assert.deepEqual(
+    filterSelectOptions(STORES, "ㅂㅅㅈㄱ").map((o) => o.value),
     ["busan"]
   );
+  // 타이핑 중 혼합 조합(완성형 + 초성): '강ㄴ', '서ㅁ'
+  assert.ok(matchesKoreanQuery("시크릿오더 강남본점", "강ㄴ"));
+  assert.ok(matchesKoreanQuery("시크릿오더 서면점", "서ㅁ"));
   assert.equal(filterSelectOptions(STORES, "없는매장").length, 0);
+});
+
+test("Select virtualizes large option lists so only visible window + overscan nodes mount", () => {
+  const range = computeVirtualRange(500, 60, 600, 300, 3);
+  assert.deepEqual(range, {
+    start: 7,
+    end: 18,
+    offsetY: 420,
+    totalHeight: 30000,
+  });
+
+  const hugeOptions: SelectOption[] = Array.from({ length: 500 }, (_, i) => ({
+    value: `store-${i}`,
+    label: `픽업 매장 ${i + 1}호점`,
+    description: `서울 권역 ${i + 1}`,
+  }));
+  const html = renderToStaticMarkup(
+    <Select title="전국 매장" options={hugeOptions} defaultOpen />
+  );
+  const renderedOptionCount = (html.match(/role="option"/g) ?? []).length;
+  assert.ok(
+    renderedOptionCount > 0 && renderedOptionCount < 40,
+    `expected virtualized subset (<40), got ${renderedOptionCount}`
+  );
+  assert.match(html, /height:30000px/);
 });
