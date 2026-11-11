@@ -2,12 +2,15 @@ import {
   BirthDateInput,
   Button,
   CartIcon,
+  CheckboxGroup,
   Field,
   IconButton,
   Input,
   OtpInput,
   PasswordInput,
   QuantityStepper,
+  RadioButtonGroup,
+  RadioGroup,
   SearchBar,
   SearchIcon,
   Text,
@@ -173,6 +176,62 @@ export default async function MobileGalleryPage({
               placeholder="매장에 전달할 요청사항을 입력하세요"
             />
           </Field>
+        </div>
+      </section>
+
+      <section className="space-y-3">
+        <Text variant="section">Radio & Checkbox (기본형 · 버튼형 · 세그먼트형)</Text>
+        <div className="space-y-5 rounded-card border border-line bg-surface p-4">
+          <div className="space-y-2">
+            <span className="block text-body-sm font-semibold text-ink-secondary">상품 구성 선택 (버튼형 라디오 · Outline)</span>
+            <RadioButtonGroup
+              name="pkg"
+              defaultValue="set"
+              columns={2}
+              options={[
+                { value: "single", label: "단품 1병", subLabel: "42,800원" },
+                { value: "set", label: "전용잔 패키지", subLabel: "46,900원" },
+              ]}
+            />
+          </div>
+
+          <div className="space-y-2">
+            <span className="block text-body-sm font-semibold text-ink-secondary">보관 상태 선택 (버튼형 라디오 · Segmented)</span>
+            <RadioButtonGroup
+              name="temp"
+              variant="segmented"
+              defaultValue="cold"
+              options={[
+                { value: "cold", label: "시원하게 냉장" },
+                { value: "room", label: "상온 보관" },
+              ]}
+            />
+          </div>
+
+          <div className="space-y-1.5">
+            <span className="block text-body-sm font-semibold text-ink-secondary">픽업 일정 (기본 원형 라디오)</span>
+            <RadioGroup
+              name="pickupTime"
+              defaultValue="today"
+              options={[
+                { value: "today", label: "오늘 바로 픽업", description: "결제 후 30분 내 매장에서 수령" },
+                { value: "reserve", label: "희망일 예약 픽업", description: "원하는 방문 날짜와 시간 지정" },
+              ]}
+            />
+          </div>
+
+          <div className="space-y-1.5">
+            <span className="block text-body-sm font-semibold text-ink-secondary">주문 필수 동의 (체크박스 그룹)</span>
+            <CheckboxGroup
+              name="terms"
+              allLabel="필수 약관 전체 동의"
+              defaultValue={["age"]}
+              options={[
+                { value: "age", label: "만 19세 이상 성인입니다 (필수)", description: "수령 시 신분증 지참 필수" },
+                { value: "pickup", label: "주류 매장 대면 수령 안내 확인 (필수)" },
+              ]}
+            />
+          </div>
         </div>
       </section>
 
