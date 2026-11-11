@@ -2,12 +2,108 @@
 
 @theme inline {
   --font-sans: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+
+  --color-primary: var(--mds-primary);
+  --color-primary-hover: var(--mds-primary-hover);
+  --color-primary-soft: var(--mds-primary-soft);
+  --color-primary-fg: var(--mds-primary-fg);
+
+  --color-canvas: var(--mds-canvas);
+  --color-surface: var(--mds-surface);
+  --color-surface-subtle: var(--mds-surface-subtle);
+  --color-line: var(--mds-line);
+  --color-line-strong: var(--mds-line-strong);
+
+  --color-ink: var(--mds-ink);
+  --color-ink-secondary: var(--mds-ink-secondary);
+  --color-ink-muted: var(--mds-ink-muted);
+
+  --color-success: var(--mds-success);
+  --color-success-soft: var(--mds-success-soft);
+  --color-warning: var(--mds-warning);
+  --color-warning-soft: var(--mds-warning-soft);
+  --color-danger: var(--mds-danger);
+  --color-danger-hover: var(--mds-danger-hover);
+  --color-danger-soft: var(--mds-danger-soft);
+
+  --radius-control: var(--mds-radius-control);
+  --radius-card: var(--mds-radius-card);
+  --radius-sheet: var(--mds-radius-sheet);
+
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
 }
 
-:root {
-  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+:root,
+[data-neutral="zinc"] {
+  /* Neutral: Zinc */
+  --mds-canvas: #F4F4F5;
+  --mds-surface: #FFFFFF;
+  --mds-surface-subtle: #FAFAFA;
+  --mds-line: #E4E4E7;
+  --mds-line-strong: #D4D4D8;
+  --mds-ink: #18181B;
+  --mds-ink-secondary: #52525B;
+  --mds-ink-muted: #71717A;
+
+  /* Default Brand: Cobalt Blue (#0066FF) */
+  --mds-primary: #0066FF;
+  --mds-primary-hover: #0052CC;
+  --mds-primary-soft: #EBF3FF;
+  --mds-primary-fg: #FFFFFF;
+
+  /* Status */
+  --mds-success: #15803D;
+  --mds-success-soft: #F0FDF4;
+  --mds-warning: #B45309;
+  --mds-warning-soft: #FFFBEB;
+  --mds-danger: #DC2626;
+  --mds-danger-hover: #B91C1C;
+  --mds-danger-soft: #FEF2F2;
+
+  /* Standard Rounded Geometry */
+  --mds-radius-control: 8px;
+  --mds-radius-card: 12px;
+  --mds-radius-sheet: 20px;
+
+  /* Motion */
   --mds-motion-press: 90ms;
   --mds-motion-hover: 160ms;
+}
+
+/* 서비스별 주입 가능한 브랜드 프리셋 (또는 루트 style 변수 오버라이드) */
+[data-brand="cobalt"] {
+  --mds-primary: #0066FF;
+  --mds-primary-hover: #0052CC;
+  --mds-primary-soft: #EBF3FF;
+  --mds-primary-fg: #FFFFFF;
+}
+
+[data-brand="ink"] {
+  --mds-primary: #18181B;
+  --mds-primary-hover: #27272A;
+  --mds-primary-soft: #F4F4F5;
+  --mds-primary-fg: #FFFFFF;
+}
+
+[data-brand="amber"] {
+  --mds-primary: #EA580C;
+  --mds-primary-hover: #C2410C;
+  --mds-primary-soft: #FFF7ED;
+  --mds-primary-fg: #FFFFFF;
+}
+
+[data-brand="emerald"] {
+  --mds-primary: #059669;
+  --mds-primary-hover: #047857;
+  --mds-primary-soft: #ECFDF5;
+  --mds-primary-fg: #FFFFFF;
+}
+
+[data-brand="rose"] {
+  --mds-primary: #E11D48;
+  --mds-primary-hover: #BE123C;
+  --mds-primary-soft: #FFF1F2;
+  --mds-primary-fg: #FFFFFF;
 }
 
 @utility pressable {

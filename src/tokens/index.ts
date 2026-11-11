@@ -1,5 +1,15 @@
 type QueryValue = string | number | boolean | null | undefined;
 
+export type BrandPreset = "cobalt" | "ink" | "amber" | "emerald" | "rose";
+
+export const BRAND_PRESETS: readonly { key: BrandPreset; label: string; hex: string }[] = [
+  { key: "cobalt", label: "Cobalt Blue (기본)", hex: "#0066FF" },
+  { key: "ink", label: "Deep Ink", hex: "#18181B" },
+  { key: "amber", label: "Warm Amber", hex: "#EA580C" },
+  { key: "emerald", label: "Fresh Emerald", hex: "#059669" },
+  { key: "rose", label: "Vibrant Rose", hex: "#E11D48" },
+] as const;
+
 export function formatNumber(value: number | string | null | undefined): string {
   const num = typeof value === "string" ? Number(value) : (value ?? 0);
   return Number.isFinite(num) ? num.toLocaleString("ko-KR") : "0";

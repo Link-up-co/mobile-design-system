@@ -6,3 +6,7 @@
 ## Mobile Decision Log
 - Bootstrap (2026-11-06): `/Users/leeyoonmin/Documents/hermes/mobile-design-system` 독립 저장소 생성, Next.js 16 + React 19 + Tailwind CSS v4, 포트 `:3420`.
 - Stage 1 Font (2026-11-06): `Pretendard Variable` CDN, 모바일 기본 본문 크기 `15px` (`leading-[1.5]`), `viewport-fit=cover`.
+- Stage 2 Color & Radius (2026-11-06):
+  - Neutral: `Zinc` (`#F4F4F5` canvas, `#FFFFFF` surface, `#E4E4E7` line, `#18181B` ink)
+  - Primary Brand: 기본 `Cobalt Blue` (`#0066FF`), 서비스별로 `data-brand="cobalt|ink|amber|emerald|rose"` 또는 CSS 변수(`--mds-primary` 등)로 교체 가능 (`BRAND_PRESETS`)
+  - Radius: 표준 라운드 — `rounded-control` `8px`(버튼·인풋), `rounded-card` `12px`(카드·박스), `rounded-sheet` `20px`(바텀시트 상단)
