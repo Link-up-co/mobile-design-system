@@ -1,3 +1,6 @@
+"use client";
+
+import { useState } from "react";
 import {
   AppHeader,
   BirthDateInput,
@@ -22,7 +25,7 @@ import {
   Text,
   Textarea,
 } from "../mobile";
-import { BRAND_PRESETS, buildListReturnHref, type BrandPreset } from "../tokens/index.ts";
+import { BRAND_PRESETS, type BrandPreset } from "../tokens";
 import { BannerSliderShowcase } from "./BannerSliderShowcase";
 import { BottomActionShowcase } from "./BottomActionShowcase";
 import { BottomNavShowcase } from "./BottomNavShowcase";
@@ -34,6 +37,7 @@ import { FeedbackShowcase } from "./FeedbackShowcase";
 import { LiquidGlassNavShowcase } from "./LiquidGlassNavShowcase";
 import { MediaUploadShowcase } from "./MediaUploadShowcase";
 import { ProductCardShowcase } from "./ProductCardShowcase";
+import { QuickStartBanner } from "./QuickStartBanner";
 
 const STORE_REGIONS = [
   ["서울 강남구", ["강남본점", "역삼점", "선릉점", "삼성코엑스점", "신사가로수길점", "압구정점", "청담점", "대치점", "도곡점", "양재점"]],
@@ -71,22 +75,17 @@ const SWATCHES: readonly { name: string; varName: string }[] = [
   { name: "danger", varName: "--mds-danger" },
 ];
 
-export default async function MobileGalleryPage({
-  searchParams,
-}: {
-  searchParams?: Promise<{ brand?: string }>;
-}) {
-  const params = (await searchParams) ?? {};
-  const activeBrand: BrandPreset = BRAND_PRESETS.some((b) => b.key === params.brand)
-    ? (params.brand as BrandPreset)
-    : "cobalt";
+export default function MobileGalleryPage() {
+  const [activeBrand, setActiveBrand] = useState<BrandPreset>("cobalt");
 
   return (
     <main data-brand={activeBrand} className="mx-auto min-h-dvh max-w-[412px] space-y-8 bg-surface p-5 shadow-xs">
       <header className="space-y-1">
         <h1 className="text-lg font-bold tracking-tight text-ink">Link-Up Mobile UI</h1>
-        <p className="text-xs text-ink-muted">갤럭시 S25 · 삼성 인터넷 기준 · Pretendard 15px</p>
+        <p className="text-xs text-ink-muted">@linkup/mobile-design-system · 갤럭시 S25 · Pretendard 15px</p>
       </header>
+
+      <QuickStartBanner />
 
       <section className="space-y-3">
         <Text variant="section">AppHeader (뒤로가기 · 좌측 타이틀 말줄임 · 우측 버튼 1~2개)</Text>
@@ -151,21 +150,22 @@ export default async function MobileGalleryPage({
           {BRAND_PRESETS.map((b) => {
             const active = b.key === activeBrand;
             return (
-              <a
+              <button
                 key={b.key}
-                href={buildListReturnHref("/", { brand: b.key === "cobalt" ? undefined : b.key })}
-                className={`pressable inline-flex h-8 items-center gap-1.5 rounded-control border px-2.5 text-xs font-semibold ${
+                type="button"
+                onClick={() => setActiveBrand(b.key)}
+                className={`pressable inline-flex h-8 cursor-pointer items-center gap-1.5 rounded-control border px-2.5 text-xs font-semibold ${
                   active
                     ? "border-primary bg-primary text-primary-fg"
                     : "border-line bg-surface text-ink-secondary hover:bg-surface-subtle"
                 }`}
               >
                 <span
-                className={`size-2.5 rounded-full border ${active ? "border-white/70" : "border-black/15"}`}
-                style={{ backgroundColor: b.hex }}
-              />
+                  className={`size-2.5 rounded-full border ${active ? "border-current/40" : "border-black/15"}`}
+                  style={{ backgroundColor: b.hex }}
+                />
                 {b.label}
-              </a>
+              </button>
             );
           })}
         </div>

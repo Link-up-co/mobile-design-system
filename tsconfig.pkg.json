@@ -1,0 +1,22 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "noEmit": false,
+    "incremental": false,
+    "allowImportingTsExtensions": false,
+    "declaration": true,
+    "outDir": "./dist",
+    "rootDir": "./src"
+  },
+  "include": [
+    "src/index.ts",
+    "src/tokens/**/*.ts",
+    "src/mobile/**/*.ts",
+    "src/mobile/**/*.tsx"
+  ],
+  "exclude": [
+    "node_modules",
+    "src/app",
+    "tests"
+  ]
+}

@@ -7,6 +7,7 @@
   --color-primary-hover: var(--mds-primary-hover);
   --color-primary-soft: var(--mds-primary-soft);
   --color-primary-fg: var(--mds-primary-fg);
+  --color-primary-ink: var(--mds-primary-ink, var(--mds-primary));
 
   --color-canvas: var(--mds-canvas);
   --color-surface: var(--mds-surface);
@@ -96,6 +97,14 @@
   --mds-primary-hover: #0052CC;
   --mds-primary-soft: #EBF3FF;
   --mds-primary-fg: #FFFFFF;
+}
+
+[data-brand="gold"] {
+  --mds-primary: #EFB81C;
+  --mds-primary-hover: #D9A414;
+  --mds-primary-soft: #FEF9E7;
+  --mds-primary-fg: #18181B;
+  --mds-primary-ink: #8A5A00;
 }
 
 [data-brand="ink"] {

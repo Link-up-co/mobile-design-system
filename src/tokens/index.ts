@@ -1,9 +1,10 @@
 type QueryValue = string | number | boolean | null | undefined;
 
-export type BrandPreset = "cobalt" | "ink" | "amber" | "emerald" | "rose";
+export type BrandPreset = "cobalt" | "gold" | "ink" | "amber" | "emerald" | "rose";
 
 export const BRAND_PRESETS: readonly { key: BrandPreset; label: string; hex: string }[] = [
   { key: "cobalt", label: "Cobalt Blue (기본)", hex: "#0066FF" },
+  { key: "gold", label: "Beer Gold", hex: "#EFB81C" },
   { key: "ink", label: "Deep Ink", hex: "#18181B" },
   { key: "amber", label: "Warm Amber", hex: "#EA580C" },
   { key: "emerald", label: "Fresh Emerald", hex: "#059669" },
